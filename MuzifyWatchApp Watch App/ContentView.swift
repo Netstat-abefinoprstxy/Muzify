@@ -189,6 +189,8 @@ private struct CollectionDetailView: View {
   private var watchSessionManager: WatchSessionManager
   @EnvironmentObject
   private var watchPlaybackManager: WatchPlaybackManager
+  @State
+  private var isShowingSystemNowPlaying = false
 
   var body: some View {
     List {
@@ -247,6 +249,9 @@ private struct CollectionDetailView: View {
       }
     }
     .navigationTitle(collection.title)
+    .sheet(isPresented: $isShowingSystemNowPlaying) {
+      SystemNowPlayingView()
+    }
   }
 
   private var readySongs: [WatchSyncSong] {
@@ -260,6 +265,7 @@ private struct CollectionDetailView: View {
       startAt: songID,
       fileURLProvider: { watchSessionManager.localFileURL(for: $0) }
     )
+    isShowingSystemNowPlaying = true
   }
 
   private func statusIconName(_ transferState: WatchSyncTransferState) -> String {
