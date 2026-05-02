@@ -47,6 +47,7 @@ struct ContentView: View {
                 }
                 Spacer(minLength: 8)
                 Text(formattedDuration(song.duration))
+                Text(transferStateText(song.transferState))
               }
               .font(.footnote)
               .foregroundStyle(.secondary)
@@ -79,6 +80,17 @@ struct ContentView: View {
     formatter.allowedUnits = [.hour, .minute, .second]
     formatter.unitsStyle = .abbreviated
     return formatter.string(from: TimeInterval(duration)) ?? "-"
+  }
+
+  private func transferStateText(_ transferState: WatchSyncTransferState) -> String {
+    switch transferState {
+    case .pending:
+      "Pending"
+    case .transferred:
+      "Ready"
+    case .failed:
+      "Failed"
+    }
   }
 }
 

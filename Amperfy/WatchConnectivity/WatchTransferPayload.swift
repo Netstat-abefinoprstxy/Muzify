@@ -15,6 +15,8 @@ enum WatchTransferPayload {
   static let songAlbumKey = "album"
   static let songDurationKey = "duration"
   static let songSyncedAtKey = "syncedAt"
+  static let transferStateKey = "transferState"
+  static let localFileNameKey = "localFileName"
 }
 
 enum WatchTransferPayloadType: String {
@@ -22,6 +24,7 @@ enum WatchTransferPayloadType: String {
   case ping
   case pingReply
   case songLibrarySync
+  case songFileTransfer
 }
 
 struct WatchSyncSong: Identifiable, Equatable {

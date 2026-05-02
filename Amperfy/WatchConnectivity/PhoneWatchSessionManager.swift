@@ -61,22 +61,35 @@ final class PhoneWatchSessionManager: NSObject {
       return "Watch sync is unavailable on this device."
     }
 
+    guard let relFilePath = song.relFilePath,
+          let fileURL = CacheFileManager.shared.getAbsoluteAmperfyPath(relFilePath: relFilePath),
+          FileManager.default.fileExists(atPath: fileURL.path)
+    else {
+      return "Download this song on the iPhone before syncing it to the watch."
+    }
+
     let syncedSong = WatchSyncSong(song: song)
     syncedSongs.removeAll { $0.id == syncedSong.id }
     syncedSongs.insert(syncedSong, at: 0)
     persistSyncedSongs()
 
-    let message = "Added \(song.title) to the watch sync list."
+    let message = "Queued \(song.title) for watch sync."
     guard let session, session.activationState == .activated else {
       return message
     }
 
     persistPayloadToApplicationContext([
       WatchTransferPayload.typeKey: WatchTransferPayloadType.songLibrarySync.rawValue,
-      WatchTransferPayload.messageKey: "Updated watch library with \(song.title)",
+      WatchTransferPayload.messageKey: "Queued \(song.title) for transfer",
       WatchTransferPayload.timestampKey: syncedSong.syncedAt,
     ])
-    return "Updated the watch library with \(song.title)."
+    cancelOutstandingTransfers(for: syncedSong.id, session: session)
+    let fileMetadata = syncedSong.dictionary.merging([
+      WatchTransferPayload.typeKey: WatchTransferPayloadType.songFileTransfer.rawValue,
+      WatchTransferPayload.transferStateKey: "pending",
+    ]) { _, newValue in newValue }
+    session.transferFile(fileURL, metadata: fileMetadata)
+    return "Queued \(song.title) for transfer to the watch."
   }
 
   private func createApplicationContextPayload(
@@ -121,6 +134,14 @@ final class PhoneWatchSessionManager: NSObject {
       syncedSongs.map(\.dictionary),
       forKey: phoneSyncedSongsDefaultsKey
     )
+  }
+
+  private func cancelOutstandingTransfers(for songID: String, session: WCSession) {
+    session.outstandingFileTransfers
+      .filter { transfer in
+        transfer.file.metadata?[WatchTransferPayload.songIDKey] as? String == songID
+      }
+      .forEach { $0.cancel() }
   }
 
   nonisolated private static func loadPersistedSongs() -> [WatchSyncSong] {
@@ -190,6 +211,34 @@ extension PhoneWatchSessionManager: WCSessionDelegate {
     session.activate()
     Task { @MainActor in
       os_log("WatchConnectivity session deactivated", log: Self.log, type: .info)
+    }
+  }
+
+  nonisolated func session(
+    _ session: WCSession,
+    didFinish fileTransfer: WCSessionFileTransfer,
+    error: Error?
+  ) {
+    let title = fileTransfer.file.metadata?[WatchTransferPayload.songTitleKey] as? String ?? "-"
+    let errorDescription = error?.localizedDescription
+
+    Task { @MainActor in
+      if let errorDescription {
+        os_log(
+          "Watch file transfer failed for %s: %s",
+          log: Self.log,
+          type: .error,
+          title,
+          errorDescription
+        )
+      } else {
+        os_log(
+          "Watch file transfer finished for %s",
+          log: Self.log,
+          type: .info,
+          title
+        )
+      }
     }
   }
 
