@@ -28,11 +28,11 @@ final class PhoneWatchSessionManager: NSObject {
 
     os_log("Activating WatchConnectivity session", log: Self.log, type: .info)
     session.activate()
-    updateApplicationContext()
   }
 
   func updateApplicationContext() {
     guard let session else { return }
+    guard session.activationState == .activated else { return }
 
     let payload: [String: Any] = [
       WatchTransferPayload.typeKey: WatchTransferPayloadType.stateSnapshot.rawValue,
@@ -56,6 +56,7 @@ final class PhoneWatchSessionManager: NSObject {
   }
 
   private func persistPayloadToApplicationContext(_ payload: [String: Any]) {
+    guard session?.activationState == .activated else { return }
     do {
       try session?.updateApplicationContext(payload)
     } catch {

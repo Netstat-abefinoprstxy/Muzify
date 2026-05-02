@@ -5,8 +5,6 @@ import WatchConnectivity
 
 @MainActor
 final class WatchSessionManager: NSObject, ObservableObject {
-  let objectWillChange = ObservableObjectPublisher()
-
   @Published
   var activationStateDescription = "Not activated"
   @Published
@@ -37,8 +35,9 @@ final class WatchSessionManager: NSObject, ObservableObject {
       return
     }
 
+    activationStateDescription = "Activating"
+    lastMessage = "Connecting to phone"
     session.activate()
-    refreshConnectionState(using: session)
   }
 
   func requestPhonePing() {
@@ -46,9 +45,12 @@ final class WatchSessionManager: NSObject, ObservableObject {
       lastMessage = "WatchConnectivity unavailable"
       return
     }
+    guard session.activationState == .activated else {
+      lastMessage = "Session not activated"
+      return
+    }
     guard session.isReachable else {
       lastMessage = "Phone not reachable"
-      refreshConnectionState(using: session)
       return
     }
 
