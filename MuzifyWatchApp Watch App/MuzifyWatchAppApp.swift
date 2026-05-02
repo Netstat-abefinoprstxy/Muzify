@@ -10,9 +10,16 @@ import SwiftUI
 
 @main
 struct MuzifyWatchApp_Watch_AppApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+  @StateObject
+  private var watchSessionManager = WatchSessionManager()
+
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
+        .environmentObject(watchSessionManager)
+        .task {
+          watchSessionManager.activate()
         }
     }
+  }
 }

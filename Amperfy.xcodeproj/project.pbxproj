@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		09EB5F102F93B96E00B1C71C /* ShareSongAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB5F0D2F93B65400B1C71C /* ShareSongAction.swift */; };
 		3DB86A592FA65E23004AC097 /* MuzifyWatchApp Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3DB86A4F2FA65E22004AC097 /* MuzifyWatchApp Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3DD32C052FA67178007484A4 /* PhoneWatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD32C022FA67178007484A4 /* PhoneWatchSessionManager.swift */; };
+		3DD32C062FA67178007484A4 /* WatchTransferPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD32C032FA67178007484A4 /* WatchTransferPayload.swift */; };
 		43FBE27F250D4DFD00D5F9B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43FBE27E250D4DFD00D5F9B3 /* LaunchScreen.storyboard */; };
 		5003D8FB267B3390006946BF /* LibrarySyncPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5003D8FA267B3390006946BF /* LibrarySyncPopupVC.swift */; };
 		5005938928E2D4EF008C8DF6 /* CommonCollectionSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5005938828E2D4EF008C8DF6 /* CommonCollectionSectionHeader.xib */; };
@@ -615,6 +617,8 @@
 /* Begin PBXFileReference section */
 		09EB5F0D2F93B65400B1C71C /* ShareSongAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSongAction.swift; sourceTree = "<group>"; };
 		3DB86A4F2FA65E22004AC097 /* MuzifyWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MuzifyWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DD32C022FA67178007484A4 /* PhoneWatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneWatchSessionManager.swift; sourceTree = "<group>"; };
+		3DD32C032FA67178007484A4 /* WatchTransferPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTransferPayload.swift; sourceTree = "<group>"; };
 		43FBE27E250D4DFD00D5F9B3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5002565625E69DC700674CE1 /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
 		5003D8F62678DD39006946BF /* SsAlbumParserPreCreatedArtistsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SsAlbumParserPreCreatedArtistsTest.swift; sourceTree = "<group>"; };
@@ -1232,6 +1236,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3DD32C042FA67178007484A4 /* WatchConnectivity */ = {
+			isa = PBXGroup;
+			children = (
+				3DD32C022FA67178007484A4 /* PhoneWatchSessionManager.swift */,
+				3DD32C032FA67178007484A4 /* WatchTransferPayload.swift */,
+			);
+			path = WatchConnectivity;
+			sourceTree = "<group>";
+		};
 		50073BDB222EFEDC000130D8 /* Download */ = {
 			isa = PBXGroup;
 			children = (
@@ -1495,6 +1508,7 @@
 		508385E621C5965B00C4BB32 /* Amperfy */ = {
 			isa = PBXGroup;
 			children = (
+				3DD32C042FA67178007484A4 /* WatchConnectivity */,
 				508385E721C5965B00C4BB32 /* AppDelegate.swift */,
 				5059A31B28A9ED680068E4D2 /* SceneDelegate.swift */,
 				63DCDB792C674B5D00522F68 /* SettingsSceneDelegate.swift */,
@@ -2566,6 +2580,8 @@
 				6333C8E12C6FDB5200CCA50A /* SecondaryText.swift in Sources */,
 				50A30E4F2B73DDC800722894 /* PlayerControlView.swift in Sources */,
 				632F51262C83A8400032860D /* LyricsVC.swift in Sources */,
+				3DD32C052FA67178007484A4 /* PhoneWatchSessionManager.swift in Sources */,
+				3DD32C062FA67178007484A4 /* WatchTransferPayload.swift in Sources */,
 				509001B82716C8F400A8056D /* AppDelegateNotificationExtensions.swift in Sources */,
 				50A30E5C2B7556FB00722894 /* PopupPlayer+TableViewExtension.swift in Sources */,
 				637A28B52C79409C0082FACC /* MiniPlayerSceneDelegate.swift in Sources */,

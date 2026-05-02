@@ -123,6 +123,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     )
   }()
 
+  public lazy var watchSessionManager = {
+    PhoneWatchSessionManager()
+  }()
+
   var settingsSceneSession: UISceneSession?
   var miniPlayerSceneSession: UISceneSession?
 
@@ -271,6 +275,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     configureBackgroundFetch()
     configureNotificationHandling()
     initEventLogger()
+    watchSessionManager.activate()
 
     guard let activeAccountInfo = appDelegate.storage.settings.accounts.active else {
       return true
@@ -407,6 +412,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationDidBecomeActive(_ application: UIApplication) {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     os_log("applicationDidBecomeActive", log: self.log, type: .info)
+    watchSessionManager.updateApplicationContext()
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
