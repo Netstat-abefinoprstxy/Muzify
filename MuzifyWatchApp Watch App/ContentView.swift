@@ -26,6 +26,35 @@ struct ContentView: View {
           .foregroundStyle(.secondary)
       }
 
+      Section("Watch Library") {
+        if watchSessionManager.syncedSongs.isEmpty {
+          Text("No songs synced yet")
+            .foregroundStyle(.secondary)
+        } else {
+          ForEach(watchSessionManager.syncedSongs) { song in
+            VStack(alignment: .leading, spacing: 2) {
+              Text(song.title)
+                .font(.headline)
+                .lineLimit(1)
+              Text(song.artist)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+              HStack {
+                if !song.album.isEmpty {
+                  Text(song.album)
+                    .lineLimit(1)
+                }
+                Spacer(minLength: 8)
+                Text(formattedDuration(song.duration))
+              }
+              .font(.footnote)
+              .foregroundStyle(.secondary)
+            }
+          }
+        }
+      }
+
       Section {
         Button("Ping Phone") {
           watchSessionManager.requestPhonePing()
@@ -43,6 +72,13 @@ struct ContentView: View {
       Text(value)
         .foregroundStyle(.secondary)
     }
+  }
+
+  private func formattedDuration(_ duration: Int) -> String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute, .second]
+    formatter.unitsStyle = .abbreviated
+    return formatter.string(from: TimeInterval(duration)) ?? "-"
   }
 }
 

@@ -3,6 +3,8 @@ import Foundation
 import OSLog
 import WatchConnectivity
 
+private let watchSyncedSongsDefaultsKey = "WatchConnectivity.syncedSongs"
+
 @MainActor
 final class WatchSessionManager: NSObject, ObservableObject {
   @Published
@@ -15,11 +17,14 @@ final class WatchSessionManager: NSObject, ObservableObject {
   var lastMessage = "Waiting for phone"
   @Published
   var lastUpdated = "-"
+  @Published
+  var syncedSongs = [WatchSyncSong]()
 
   private let log = OSLog(subsystem: "Muzify", category: "WatchConnectivity")
   private let session: WCSession?
 
   override init() {
+    syncedSongs = Self.loadPersistedSongs()
     if WCSession.isSupported() {
       session = WCSession.default
     } else {
@@ -78,9 +83,6 @@ final class WatchSessionManager: NSObject, ObservableObject {
   }
 
   private func applyPayload(_ payload: [String: Any]) {
-    if let type = payload[WatchTransferPayload.typeKey] as? String {
-      activationStateDescription = type
-    }
     if let message = payload[WatchTransferPayload.messageKey] as? String {
       lastMessage = message
     } else if let appName = payload[WatchTransferPayload.appNameKey] as? String {
@@ -92,6 +94,33 @@ final class WatchSessionManager: NSObject, ObservableObject {
     if let reachable = payload[WatchTransferPayload.isReachableKey] as? Bool {
       isReachable = reachable
     }
+    if let songDictionaries = payload[WatchTransferPayload.songsKey] as? [[String: Any]] {
+      syncedSongs = songDictionaries.compactMap(WatchSyncSong.init)
+      persistSyncedSongs()
+    }
+  }
+
+  private func persistSyncedSongs() {
+    let songDictionaries = syncedSongs.map { song in
+      [
+        WatchTransferPayload.songIDKey: song.id,
+        WatchTransferPayload.songTitleKey: song.title,
+        WatchTransferPayload.songArtistKey: song.artist,
+        WatchTransferPayload.songAlbumKey: song.album,
+        WatchTransferPayload.songDurationKey: song.duration,
+        WatchTransferPayload.songSyncedAtKey: song.syncedAt,
+      ]
+    }
+    UserDefaults.standard.set(songDictionaries, forKey: watchSyncedSongsDefaultsKey)
+  }
+
+  nonisolated private static func loadPersistedSongs() -> [WatchSyncSong] {
+    guard let songDictionaries = UserDefaults.standard.array(
+      forKey: watchSyncedSongsDefaultsKey
+    ) as? [[String: Any]]
+    else { return [] }
+
+    return songDictionaries.compactMap(WatchSyncSong.init)
   }
 }
 
