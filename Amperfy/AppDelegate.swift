@@ -37,7 +37,7 @@ let defaultWindowActivityType = "amperfy.main"
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  static let name = "Amperfy"
+  static let name = "Muzify"
   static var version: String {
     (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? ""
   }

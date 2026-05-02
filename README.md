@@ -1,8 +1,8 @@
-# ![Logo](.github/Icon-40.png) Amperfy
+# ![Logo](.github/Icon-40.png) Muzify
 
 ## Basics
 
-Amperfy is an iOS/iPadOS/macOS app written in Swift to interact with an [Ampache](http://ampache.github.io) or [Subsonic](http://www.subsonic.org) server.
+Muzify is an iOS/iPadOS/macOS app written in Swift to interact with an [Ampache](http://ampache.github.io) or [Subsonic](http://www.subsonic.org) server.
 
 ### iOS
 
