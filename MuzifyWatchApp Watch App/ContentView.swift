@@ -3,6 +3,8 @@ import SwiftUI
 struct ContentView: View {
   @EnvironmentObject
   private var watchSessionManager: WatchSessionManager
+  @EnvironmentObject
+  private var watchPlaybackManager: WatchPlaybackManager
 
   var body: some View {
     List {
@@ -32,26 +34,63 @@ struct ContentView: View {
             .foregroundStyle(.secondary)
         } else {
           ForEach(watchSessionManager.syncedSongs) { song in
-            VStack(alignment: .leading, spacing: 2) {
-              Text(song.title)
-                .font(.headline)
-                .lineLimit(1)
-              Text(song.artist)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-              HStack {
-                if !song.album.isEmpty {
-                  Text(song.album)
+            Button {
+              watchPlaybackManager.togglePlayback(
+                for: song,
+                fileURL: watchSessionManager.localFileURL(for: song)
+              )
+            } label: {
+              VStack(alignment: .leading, spacing: 2) {
+                HStack {
+                  Text(song.title)
+                    .font(.headline)
                     .lineLimit(1)
+                  Spacer(minLength: 8)
+                  if watchPlaybackManager.currentSongID == song.id {
+                    Image(systemName: watchPlaybackManager.isPlaying ? "pause.circle" : "play.circle")
+                      .foregroundStyle(.tint)
+                  }
                 }
-                Spacer(minLength: 8)
-                Text(formattedDuration(song.duration))
-                Text(transferStateText(song.transferState))
+                Text(song.artist)
+                  .font(.subheadline)
+                  .foregroundStyle(.secondary)
+                  .lineLimit(1)
+                HStack {
+                  if !song.album.isEmpty {
+                    Text(song.album)
+                      .lineLimit(1)
+                  }
+                  Spacer(minLength: 8)
+                  Text(formattedDuration(song.duration))
+                  Text(transferStateText(song.transferState))
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
               }
-              .font(.footnote)
-              .foregroundStyle(.secondary)
             }
+            .buttonStyle(.plain)
+          }
+        }
+      }
+
+      Section("Playback") {
+        if watchPlaybackManager.currentSongTitle.isEmpty {
+          Text(watchPlaybackManager.statusMessage)
+            .foregroundStyle(.secondary)
+        } else {
+          Text(watchPlaybackManager.currentSongTitle)
+            .lineLimit(1)
+          Text(watchPlaybackManager.statusMessage)
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+          Button(watchPlaybackManager.isPlaying ? "Pause" : "Resume") {
+            guard let currentSong = watchSessionManager.syncedSongs.first(
+              where: { $0.id == watchPlaybackManager.currentSongID }
+            ) else { return }
+            watchPlaybackManager.togglePlayback(
+              for: currentSong,
+              fileURL: watchSessionManager.localFileURL(for: currentSong)
+            )
           }
         }
       }
@@ -97,4 +136,5 @@ struct ContentView: View {
 #Preview {
   ContentView()
     .environmentObject(WatchSessionManager())
+    .environmentObject(WatchPlaybackManager())
 }

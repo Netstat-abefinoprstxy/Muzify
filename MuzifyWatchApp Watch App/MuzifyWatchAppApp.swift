@@ -12,11 +12,14 @@ import SwiftUI
 struct MuzifyWatchApp_Watch_AppApp: App {
   @StateObject
   private var watchSessionManager = WatchSessionManager()
+  @StateObject
+  private var watchPlaybackManager = WatchPlaybackManager()
 
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environmentObject(watchSessionManager)
+        .environmentObject(watchPlaybackManager)
         .task {
           watchSessionManager.activate()
         }

@@ -167,6 +167,17 @@ final class WatchSessionManager: NSObject, ObservableObject {
     UserDefaults.standard.set(songDictionaries, forKey: watchSyncedSongsDefaultsKey)
   }
 
+  func localFileURL(for song: WatchSyncSong) -> URL? {
+    guard song.transferState == .transferred,
+          let localFileName = song.localFileName,
+          let directoryURL = watchSongsDirectoryURL()
+    else { return nil }
+
+    let fileURL = directoryURL.appendingPathComponent(localFileName, isDirectory: false)
+    guard FileManager.default.fileExists(atPath: fileURL.path) else { return nil }
+    return fileURL
+  }
+
   nonisolated private static func loadPersistedSongs() -> [WatchSyncSong] {
     guard let songDictionaries = UserDefaults.standard.array(
       forKey: watchSyncedSongsDefaultsKey
