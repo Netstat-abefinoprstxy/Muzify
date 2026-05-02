@@ -14,12 +14,6 @@ struct ContentView: View {
   var body: some View {
     NavigationStack {
       List {
-        if !watchPlaybackManager.currentSongTitle.isEmpty {
-          Section("Now Playing") {
-            nowPlayingCard
-          }
-        }
-
         if watchSessionManager.syncedCollections.isEmpty {
           Section("Library") {
             VStack(alignment: .leading, spacing: 6) {
@@ -32,23 +26,12 @@ struct ContentView: View {
           }
         } else {
           ForEach(watchSessionManager.syncedCollections) { collection in
-            HStack(spacing: 8) {
-              Button {
-                playCollection(collection, startAt: nil)
-              } label: {
-                collectionRow(collection)
-              }
-              .buttonStyle(.plain)
-
-              NavigationLink {
-                CollectionDetailView(collection: collection)
-                  .environmentObject(watchSessionManager)
-                  .environmentObject(watchPlaybackManager)
-              } label: {
-                Image(systemName: "list.bullet")
-                  .foregroundStyle(.tint)
-              }
-              .buttonStyle(.borderless)
+            NavigationLink {
+              CollectionDetailView(collection: collection)
+                .environmentObject(watchSessionManager)
+                .environmentObject(watchPlaybackManager)
+            } label: {
+              collectionRow(collection)
             }
           }
         }
@@ -80,42 +63,6 @@ struct ContentView: View {
       }
     }
     .listStyle(.carousel)
-  }
-
-  private var nowPlayingCard: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text(watchPlaybackManager.currentSongTitle)
-        .font(.headline)
-        .lineLimit(2)
-      if !watchPlaybackManager.queueTitle.isEmpty {
-        Text(watchPlaybackManager.queueTitle)
-          .font(.footnote)
-          .foregroundStyle(.secondary)
-          .lineLimit(1)
-      }
-      Text(watchPlaybackManager.statusMessage)
-        .font(.footnote)
-        .foregroundStyle(.secondary)
-      HStack {
-        Button {
-          watchPlaybackManager.playPrevious()
-        } label: {
-          Image(systemName: "backward.fill")
-        }
-        .disabled(!watchPlaybackManager.canPlayPrevious)
-
-        Button(watchPlaybackManager.isPlaying ? "Pause" : "Resume") {
-          watchPlaybackManager.toggleCurrentPlayback()
-        }
-
-        Button {
-          watchPlaybackManager.playNext()
-        } label: {
-          Image(systemName: "forward.fill")
-        }
-        .disabled(!watchPlaybackManager.canPlayNext)
-      }
-    }
   }
 
   @ViewBuilder
@@ -213,15 +160,6 @@ struct ContentView: View {
 
   private func readySongCount(in collection: WatchSyncCollection) -> Int {
     collection.songs.filter { $0.transferState == .transferred }.count
-  }
-
-  private func playCollection(_ collection: WatchSyncCollection, startAt songID: String?) {
-    watchPlaybackManager.playCollection(
-      title: collection.title,
-      songs: collection.songs,
-      startAt: songID,
-      fileURLProvider: { watchSessionManager.localFileURL(for: $0) }
-    )
   }
 
   fileprivate static func formattedDuration(_ duration: Int) -> String {
