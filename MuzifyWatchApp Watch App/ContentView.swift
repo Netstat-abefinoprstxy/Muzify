@@ -1,4 +1,5 @@
 import SwiftUI
+import WatchKit
 
 struct ContentView: View {
   @EnvironmentObject
@@ -7,6 +8,8 @@ struct ContentView: View {
   private var watchPlaybackManager: WatchPlaybackManager
   @State
   private var isShowingDiagnostics = false
+  @State
+  private var isShowingSystemNowPlaying = false
 
   var body: some View {
     NavigationStack {
@@ -29,18 +32,38 @@ struct ContentView: View {
           }
         } else {
           ForEach(watchSessionManager.syncedCollections) { collection in
-            NavigationLink {
-              CollectionDetailView(collection: collection)
-                .environmentObject(watchSessionManager)
-                .environmentObject(watchPlaybackManager)
-            } label: {
-              collectionRow(collection)
+            HStack(spacing: 8) {
+              Button {
+                playCollection(collection, startAt: nil)
+              } label: {
+                collectionRow(collection)
+              }
+              .buttonStyle(.plain)
+
+              NavigationLink {
+                CollectionDetailView(collection: collection)
+                  .environmentObject(watchSessionManager)
+                  .environmentObject(watchPlaybackManager)
+              } label: {
+                Image(systemName: "list.bullet")
+                  .foregroundStyle(.tint)
+              }
+              .buttonStyle(.borderless)
             }
           }
         }
       }
       .navigationTitle("Muzify")
       .toolbar {
+        if !watchPlaybackManager.currentSongTitle.isEmpty {
+          ToolbarItem(placement: .topBarLeading) {
+            Button {
+              isShowingSystemNowPlaying = true
+            } label: {
+              Image(systemName: "play.square")
+            }
+          }
+        }
         ToolbarItem(placement: .topBarTrailing) {
           Button {
             isShowingDiagnostics = true
@@ -51,6 +74,9 @@ struct ContentView: View {
       }
       .sheet(isPresented: $isShowingDiagnostics) {
         diagnosticsView
+      }
+      .sheet(isPresented: $isShowingSystemNowPlaying) {
+        SystemNowPlayingView()
       }
     }
     .listStyle(.carousel)
@@ -189,11 +215,26 @@ struct ContentView: View {
     collection.songs.filter { $0.transferState == .transferred }.count
   }
 
+  private func playCollection(_ collection: WatchSyncCollection, startAt songID: String?) {
+    watchPlaybackManager.playCollection(
+      title: collection.title,
+      songs: collection.songs,
+      startAt: songID,
+      fileURLProvider: { watchSessionManager.localFileURL(for: $0) }
+    )
+  }
+
   fileprivate static func formattedDuration(_ duration: Int) -> String {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute, .second]
     formatter.unitsStyle = .abbreviated
     return formatter.string(from: TimeInterval(duration)) ?? "-"
+  }
+}
+
+private struct SystemNowPlayingView: View {
+  var body: some View {
+    NowPlayingView()
   }
 }
 
