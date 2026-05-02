@@ -1,6 +1,7 @@
 import AVFoundation
 import Combine
 import Foundation
+import MediaPlayer
 import OSLog
 
 @MainActor
@@ -41,6 +42,11 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
     if let endObserver {
       NotificationCenter.default.removeObserver(endObserver)
     }
+  }
+
+  override init() {
+    super.init()
+    configureRemoteCommandCenter()
   }
 
   func playCollection(
@@ -109,6 +115,7 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
         player.pause()
         isPlaying = false
         statusMessage = "Paused \(song.title)"
+        updatePlaybackStateInNowPlayingInfo()
         os_log("Paused %s", log: log, type: .info, song.title)
       } else {
         do {
@@ -116,6 +123,7 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
           player.play()
           isPlaying = true
           statusMessage = "Playing \(song.title)"
+          updatePlaybackStateInNowPlayingInfo()
           os_log("Resumed %s", log: log, type: .info, song.title)
         } catch {
           statusMessage = error.localizedDescription
@@ -166,6 +174,8 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
     currentSongTitle = song.title
     isPlaying = true
     statusMessage = "Playing \(song.title)"
+    updateNowPlayingInfo(for: song)
+    updateRemoteCommandAvailability()
     os_log("Created AVPlayerItem for %s", log: log, type: .info, song.title)
 
     playerStatusObservation = player.observe(\.timeControlStatus, options: [.initial, .new]) {
@@ -184,6 +194,7 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
           stateDescription = "unknown"
         }
         self.statusMessage = stateDescription.capitalized
+        self.updatePlaybackStateInNowPlayingInfo()
         os_log(
           "Player timeControlStatus for %s changed to %s",
           log: self.log,
@@ -212,6 +223,7 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
           let errorMessage = playerItem.error?.localizedDescription ?? "Unknown player item error"
           self.isPlaying = false
           self.statusMessage = "Playback failed: \(errorMessage)"
+          self.updatePlaybackStateInNowPlayingInfo()
           os_log(
             "Player item failed for %s: %s",
             log: self.log,
@@ -240,6 +252,8 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
           self.statusMessage = "Finished"
           self.currentSongID = nil
           self.currentSongTitle = ""
+          self.queueTitle = ""
+          self.clearNowPlayingInfo()
         }
       }
     }
@@ -250,9 +264,116 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
 
   private func configureAudioSession() throws {
     let session = AVAudioSession.sharedInstance()
-    try session.setCategory(.playback, mode: .default)
+    try session.setCategory(.playback, mode: .default, policy: .longFormAudio, options: [])
     try session.setActive(true)
     os_log("Configured and activated watch audio session", log: log, type: .info)
+  }
+
+  private func configureRemoteCommandCenter() {
+    let commandCenter = MPRemoteCommandCenter.shared()
+
+    commandCenter.playCommand.isEnabled = true
+    commandCenter.playCommand.addTarget { [weak self] _ in
+      Task { @MainActor in
+        self?.resumeFromRemoteCommand()
+      }
+      return .success
+    }
+
+    commandCenter.pauseCommand.isEnabled = true
+    commandCenter.pauseCommand.addTarget { [weak self] _ in
+      Task { @MainActor in
+        self?.pauseFromRemoteCommand()
+      }
+      return .success
+    }
+
+    commandCenter.togglePlayPauseCommand.isEnabled = true
+    commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
+      Task { @MainActor in
+        self?.toggleCurrentPlayback()
+      }
+      return .success
+    }
+
+    commandCenter.nextTrackCommand.addTarget { [weak self] _ in
+      Task { @MainActor in
+        self?.playNext()
+      }
+      return .success
+    }
+
+    commandCenter.previousTrackCommand.addTarget { [weak self] _ in
+      Task { @MainActor in
+        self?.playPrevious()
+      }
+      return .success
+    }
+
+    updateRemoteCommandAvailability()
+  }
+
+  private func updateRemoteCommandAvailability() {
+    let commandCenter = MPRemoteCommandCenter.shared()
+    commandCenter.previousTrackCommand.isEnabled = canPlayPrevious
+    commandCenter.nextTrackCommand.isEnabled = canPlayNext
+  }
+
+  private func updateNowPlayingInfo(for song: WatchSyncSong) {
+    var nowPlayingInfo: [String: Any] = [
+      MPMediaItemPropertyTitle: song.title,
+      MPMediaItemPropertyArtist: song.artist,
+      MPMediaItemPropertyAlbumTitle: song.album,
+      MPMediaItemPropertyPlaybackDuration: TimeInterval(song.duration),
+      MPNowPlayingInfoPropertyMediaType: NSNumber(value: MPNowPlayingInfoMediaType.audio.rawValue),
+      MPNowPlayingInfoPropertyExternalContentIdentifier: song.id,
+      MPNowPlayingInfoPropertyDefaultPlaybackRate: 1.0,
+    ]
+
+    if let player {
+      nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime().seconds
+      nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+    }
+
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+    os_log("Updated MPNowPlayingInfoCenter for %s", log: log, type: .info, song.title)
+  }
+
+  private func updatePlaybackStateInNowPlayingInfo() {
+    guard var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+    else { return }
+
+    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+    if let player {
+      nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime().seconds
+    }
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+  }
+
+  private func clearNowPlayingInfo() {
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+    updateRemoteCommandAvailability()
+  }
+
+  private func pauseFromRemoteCommand() {
+    guard let player, isPlaying else { return }
+    player.pause()
+    isPlaying = false
+    statusMessage = "Paused"
+    updatePlaybackStateInNowPlayingInfo()
+  }
+
+  private func resumeFromRemoteCommand() {
+    guard let player, !isPlaying else { return }
+    do {
+      try configureAudioSession()
+      player.play()
+      isPlaying = true
+      statusMessage = "Playing"
+      updatePlaybackStateInNowPlayingInfo()
+    } catch {
+      statusMessage = error.localizedDescription
+    }
   }
 
   private func removeEndObserver() {
