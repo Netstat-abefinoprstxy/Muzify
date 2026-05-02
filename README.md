@@ -1,8 +1,8 @@
-# ![Logo](.github/Icon-40.png) Muzify
+# ![Logo](.github/Icon-40.png) Muzeflow
 
 ## Basics
 
-Muzify is an iOS/iPadOS/macOS app written in Swift to interact with an [Ampache](http://ampache.github.io) or [Subsonic](http://www.subsonic.org) server.
+Muzeflow is an iOS/iPadOS/macOS app written in Swift to interact with an [Ampache](http://ampache.github.io) or [Subsonic](http://www.subsonic.org) server.
 
 ### iOS
 

@@ -9,7 +9,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Muzify</string>
+	<string>Muzeflow</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -41,7 +41,7 @@
 	<array>
 		<dict>
 			<key>INAlternativeAppName</key>
-			<string>Muzify Music</string>
+			<string>Muzeflow Music</string>
 			<key>INAlternativeAppNamePronunciationHint</key>
 			<string>myoo-zih-fy music</string>
 		</dict>

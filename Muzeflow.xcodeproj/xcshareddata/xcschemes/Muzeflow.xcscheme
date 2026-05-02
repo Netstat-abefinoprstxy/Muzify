@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "508385E321C5965B00C4BB32"
-               BuildableName = "Muzeify.app"
-               BlueprintName = "Muzeify"
-               ReferencedContainer = "container:Muzeify.xcodeproj">
+               BuildableName = "Muzeflow.app"
+               BlueprintName = "Muzeflow"
+               ReferencedContainer = "container:Muzeflow.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,9 +31,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "508385E321C5965B00C4BB32"
-            BuildableName = "Muzeify.app"
-            BlueprintName = "Muzeify"
-            ReferencedContainer = "container:Muzeify.xcodeproj">
+            BuildableName = "Muzeflow.app"
+            BlueprintName = "Muzeflow"
+            ReferencedContainer = "container:Muzeflow.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -44,7 +44,7 @@
                BlueprintIdentifier = "508385F721C5965E00C4BB32"
                BuildableName = "AmperfyTests.xctest"
                BlueprintName = "AmperfyTests"
-               ReferencedContainer = "container:Muzeify.xcodeproj">
+               ReferencedContainer = "container:Muzeflow.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -54,7 +54,7 @@
                BlueprintIdentifier = "5083860221C5965E00C4BB32"
                BuildableName = "AmperfyUITests.xctest"
                BlueprintName = "AmperfyUITests"
-               ReferencedContainer = "container:Muzeify.xcodeproj">
+               ReferencedContainer = "container:Muzeflow.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -64,7 +64,7 @@
                BlueprintIdentifier = "50C9D60D284FA847007F18D0"
                BuildableName = "AmperfyKitTests.xctest"
                BlueprintName = "AmperfyKitTests"
-               ReferencedContainer = "container:Muzeify.xcodeproj">
+               ReferencedContainer = "container:Muzeflow.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -84,9 +84,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "508385E321C5965B00C4BB32"
-            BuildableName = "Muzeify.app"
-            BlueprintName = "Muzeify"
-            ReferencedContainer = "container:Muzeify.xcodeproj">
+            BuildableName = "Muzeflow.app"
+            BlueprintName = "Muzeflow"
+            ReferencedContainer = "container:Muzeflow.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "508385E321C5965B00C4BB32"
-            BuildableName = "Muzeify.app"
-            BlueprintName = "Muzeify"
-            ReferencedContainer = "container:Muzeify.xcodeproj">
+            BuildableName = "Muzeflow.app"
+            BlueprintName = "Muzeflow"
+            ReferencedContainer = "container:Muzeflow.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
