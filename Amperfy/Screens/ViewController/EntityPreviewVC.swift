@@ -277,7 +277,7 @@ class EntityPreviewActionBuilder {
     isShowSongDetails = true
     isInstantMix = appDelegate.storage.settings.user.isOnlineMode
     isShareable = song.isCached || appDelegate.storage.settings.user.isOnlineMode
-    isSyncToWatch = true
+    isSyncToWatch = song.isCached
   }
 
   private func configureFor(podcastEpisode: PodcastEpisode) {

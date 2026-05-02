@@ -5,6 +5,11 @@ import OSLog
 
 @MainActor
 final class WatchPlaybackManager: NSObject, ObservableObject {
+  struct QueueEntry {
+    let song: WatchSyncSong
+    let fileURL: URL
+  }
+
   @Published
   var currentSongID: String?
   @Published
@@ -13,12 +18,24 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
   var isPlaying = false
   @Published
   var statusMessage = "Tap a ready song to play it"
+  @Published
+  var queueTitle = ""
 
   private let log = OSLog(subsystem: "Muzify", category: "WatchPlayback")
   private var player: AVPlayer?
   private var endObserver: NSObjectProtocol?
   private var playerStatusObservation: NSKeyValueObservation?
   private var playerItemStatusObservation: NSKeyValueObservation?
+  private var currentQueue = [QueueEntry]()
+  private var currentQueueIndex = 0
+
+  var canPlayPrevious: Bool {
+    currentQueueIndex > 0
+  }
+
+  var canPlayNext: Bool {
+    currentQueueIndex + 1 < currentQueue.count
+  }
 
   deinit {
     if let endObserver {
@@ -26,7 +43,59 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
     }
   }
 
-  func togglePlayback(for song: WatchSyncSong, fileURL: URL?) {
+  func playCollection(
+    title: String,
+    songs: [WatchSyncSong],
+    startAt selectedSongID: String? = nil,
+    fileURLProvider: (WatchSyncSong) -> URL?
+  ) {
+    let queueEntries = songs.compactMap { song -> QueueEntry? in
+      guard let fileURL = fileURLProvider(song) else { return nil }
+      return QueueEntry(song: song, fileURL: fileURL)
+    }
+
+    guard !queueEntries.isEmpty else {
+      statusMessage = "No ready songs in this collection yet"
+      return
+    }
+
+    currentQueue = queueEntries
+    queueTitle = title
+    if let selectedSongID,
+       let selectedIndex = queueEntries.firstIndex(where: { $0.song.id == selectedSongID }) {
+      currentQueueIndex = selectedIndex
+    } else {
+      currentQueueIndex = 0
+    }
+
+    let selectedEntry = currentQueue[currentQueueIndex]
+    playCurrentQueueEntry(entry: selectedEntry)
+  }
+
+  func toggleCurrentPlayback() {
+    guard let currentSongID,
+          let currentEntry = currentQueue.first(where: { $0.song.id == currentSongID })
+    else {
+      statusMessage = "Nothing loaded yet"
+      return
+    }
+
+    togglePlayback(for: currentEntry.song, fileURL: currentEntry.fileURL)
+  }
+
+  func playPrevious() {
+    guard canPlayPrevious else { return }
+    currentQueueIndex -= 1
+    playCurrentQueueEntry(entry: currentQueue[currentQueueIndex])
+  }
+
+  func playNext() {
+    guard canPlayNext else { return }
+    currentQueueIndex += 1
+    playCurrentQueueEntry(entry: currentQueue[currentQueueIndex])
+  }
+
+  private func togglePlayback(for song: WatchSyncSong, fileURL: URL?) {
     guard let fileURL else {
       statusMessage = "Song file is not available on the watch yet"
       os_log("Playback requested without local file for %s", log: log, type: .error, song.title)
@@ -63,6 +132,13 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
     }
 
     play(song: song, fileURL: fileURL)
+  }
+
+  private func playCurrentQueueEntry(entry: QueueEntry) {
+    if let queueIndex = currentQueue.firstIndex(where: { $0.song.id == entry.song.id }) {
+      currentQueueIndex = queueIndex
+    }
+    play(song: entry.song, fileURL: entry.fileURL)
   }
 
   private func play(song: WatchSyncSong, fileURL: URL) {
@@ -107,7 +183,7 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
         @unknown default:
           stateDescription = "unknown"
         }
-        self.statusMessage = "\(song.title): \(stateDescription)"
+        self.statusMessage = stateDescription.capitalized
         os_log(
           "Player timeControlStatus for %s changed to %s",
           log: self.log,
@@ -155,10 +231,16 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
       queue: .main
     ) { [weak self] _ in
       Task { @MainActor in
-        self?.isPlaying = false
-        self?.statusMessage = "Finished \(song.title)"
-        self?.currentSongID = nil
-        self?.currentSongTitle = ""
+        guard let self else { return }
+        if self.canPlayNext {
+          self.currentQueueIndex += 1
+          self.playCurrentQueueEntry(entry: self.currentQueue[self.currentQueueIndex])
+        } else {
+          self.isPlaying = false
+          self.statusMessage = "Finished"
+          self.currentSongID = nil
+          self.currentSongTitle = ""
+        }
       }
     }
 
