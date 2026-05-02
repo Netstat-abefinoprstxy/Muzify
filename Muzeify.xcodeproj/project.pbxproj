@@ -3051,7 +3051,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.museify.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeify.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -3091,7 +3091,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.museify.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeify.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -3253,8 +3253,8 @@
 				);
 				MARKETING_VERSION = 2.1.1;
 				"MARKETING_VERSION[sdk=macosx*]" = 2.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzify;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.museify;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeify;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.muzeify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3294,8 +3294,8 @@
 				);
 				MARKETING_VERSION = 2.1.1;
 				"MARKETING_VERSION[sdk=macosx*]" = 2.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzify;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.museify;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeify;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.muzeify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
