@@ -7,6 +7,10 @@ enum WatchTransferPayload {
   static let messageKey = "message"
   static let isReachableKey = "isReachable"
   static let sourceKey = "source"
+  static let collectionsKey = "collections"
+  static let collectionIDKey = "collectionID"
+  static let collectionTitleKey = "collectionTitle"
+  static let collectionKindKey = "collectionKind"
   static let songsKey = "songs"
   static let songIDKey = "id"
   static let songTitleKey = "title"
@@ -24,6 +28,11 @@ enum WatchTransferPayloadType: String {
   case pingReply
   case songLibrarySync
   case songFileTransfer
+}
+
+enum WatchSyncCollectionKind: String {
+  case misc
+  case playlist
 }
 
 enum WatchSyncTransferState: String {
@@ -113,5 +122,49 @@ struct WatchSyncSong: Identifiable, Equatable {
     self.syncedAt = syncedAt
     self.transferState = transferState
     self.localFileName = localFileName
+  }
+}
+
+struct WatchSyncCollection: Identifiable, Equatable {
+  static let miscID = "misc"
+  static let miscTitle = "Misc"
+
+  let id: String
+  let title: String
+  let kind: WatchSyncCollectionKind
+  let songs: [WatchSyncSong]
+
+  init(id: String, title: String, kind: WatchSyncCollectionKind, songs: [WatchSyncSong]) {
+    self.id = id
+    self.title = title
+    self.kind = kind
+    self.songs = songs
+  }
+
+  init?(_ dictionary: [String: Any]) {
+    guard let id = dictionary[WatchTransferPayload.collectionIDKey] as? String,
+          let title = dictionary[WatchTransferPayload.collectionTitleKey] as? String,
+          let kindRawValue = dictionary[WatchTransferPayload.collectionKindKey] as? String,
+          let kind = WatchSyncCollectionKind(rawValue: kindRawValue),
+          let songDictionaries = dictionary[WatchTransferPayload.songsKey] as? [[String: Any]]
+    else { return nil }
+
+    self.id = id
+    self.title = title
+    self.kind = kind
+    songs = songDictionaries.compactMap(WatchSyncSong.init)
+  }
+
+  var dictionary: [String: Any] {
+    [
+      WatchTransferPayload.collectionIDKey: id,
+      WatchTransferPayload.collectionTitleKey: title,
+      WatchTransferPayload.collectionKindKey: kind.rawValue,
+      WatchTransferPayload.songsKey: songs.map(\.dictionary),
+    ]
+  }
+
+  var referencedSongIDs: Set<String> {
+    Set(songs.map(\.id))
   }
 }

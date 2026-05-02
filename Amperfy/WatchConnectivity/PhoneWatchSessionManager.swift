@@ -3,7 +3,8 @@ import Foundation
 import OSLog
 import WatchConnectivity
 
-private let phoneSyncedSongsDefaultsKey = "WatchConnectivity.syncedSongs"
+private let phoneSyncedCollectionsDefaultsKey = "WatchConnectivity.syncedCollections"
+private let phoneLegacySyncedSongsDefaultsKey = "WatchConnectivity.syncedSongs"
 
 @MainActor
 final class PhoneWatchSessionManager: NSObject {
@@ -12,10 +13,10 @@ final class PhoneWatchSessionManager: NSObject {
     category: "WatchConnectivity"
   )
   private let session: WCSession?
-  private var syncedSongs: [WatchSyncSong]
+  private var syncedCollections: [WatchSyncCollection]
 
   override init() {
-    syncedSongs = Self.loadPersistedSongs()
+    syncedCollections = Self.loadPersistedCollections()
     if WCSession.isSupported() {
       session = WCSession.default
     } else {
@@ -61,17 +62,28 @@ final class PhoneWatchSessionManager: NSObject {
       return "Watch sync is unavailable on this device."
     }
 
-    guard let relFilePath = song.relFilePath,
-          let fileURL = CacheFileManager.shared.getAbsoluteAmperfyPath(relFilePath: relFilePath),
-          FileManager.default.fileExists(atPath: fileURL.path)
+    guard let fileURL = localFileURL(for: song)
     else {
       return "Download this song on the iPhone before syncing it to the watch."
     }
 
+    let previousReferencedSongIDs = referencedSongIDs(in: syncedCollections)
     let syncedSong = WatchSyncSong(song: song)
-    syncedSongs.removeAll { $0.id == syncedSong.id }
-    syncedSongs.insert(syncedSong, at: 0)
-    persistSyncedSongs()
+    let existingMiscSongs = collection(withID: WatchSyncCollection.miscID)?.songs ?? []
+    let miscSongs = ([syncedSong] + existingMiscSongs)
+      .reduce(into: [WatchSyncSong]()) { partialResult, song in
+        if !partialResult.contains(where: { $0.id == song.id }) {
+          partialResult.append(song)
+        }
+      }
+    let miscCollection = WatchSyncCollection(
+      id: WatchSyncCollection.miscID,
+      title: WatchSyncCollection.miscTitle,
+      kind: .misc,
+      songs: miscSongs
+    )
+    syncedCollections = upserting(collection: miscCollection, into: syncedCollections)
+    persistSyncedCollections()
 
     let message = "Queued \(song.title) for watch sync."
     guard let session, session.activationState == .activated else {
@@ -83,13 +95,53 @@ final class PhoneWatchSessionManager: NSObject {
       WatchTransferPayload.messageKey: "Queued \(song.title) for transfer",
       WatchTransferPayload.timestampKey: syncedSong.syncedAt,
     ])
-    cancelOutstandingTransfers(for: syncedSong.id, session: session)
-    let fileMetadata = syncedSong.dictionary.merging([
-      WatchTransferPayload.typeKey: WatchTransferPayloadType.songFileTransfer.rawValue,
-      WatchTransferPayload.transferStateKey: "pending",
-    ]) { _, newValue in newValue }
-    session.transferFile(fileURL, metadata: fileMetadata)
+    if !previousReferencedSongIDs.contains(syncedSong.id) {
+      queueFileTransfer(for: syncedSong, fileURL: fileURL, session: session)
+    }
     return "Queued \(song.title) for transfer to the watch."
+  }
+
+  func syncPlaylist(_ playlist: Playlist) -> String {
+    guard session != nil else {
+      return "Watch sync is unavailable on this device."
+    }
+
+    let songs = playlist.playables.compactMap(\.asSong)
+    let cachedSongs = songs.compactMap { song -> (Song, URL)? in
+      guard let fileURL = localFileURL(for: song) else { return nil }
+      return (song, fileURL)
+    }
+
+    if cachedSongs.count != songs.count {
+      let missingCount = songs.count - cachedSongs.count
+      return "Download \(missingCount) missing song\(missingCount == 1 ? "" : "s") on the iPhone first."
+    }
+
+    let previousReferencedSongIDs = referencedSongIDs(in: syncedCollections)
+    let playlistCollection = WatchSyncCollection(
+      playlist: playlist,
+      songs: cachedSongs.map(\.0)
+    )
+    syncedCollections = upserting(collection: playlistCollection, into: syncedCollections)
+    persistSyncedCollections()
+
+    guard let session, session.activationState == .activated else {
+      return "Prepared \(playlist.name) for watch sync."
+    }
+
+    persistPayloadToApplicationContext([
+      WatchTransferPayload.typeKey: WatchTransferPayloadType.songLibrarySync.rawValue,
+      WatchTransferPayload.messageKey: "Synced playlist \(playlist.name)",
+      WatchTransferPayload.timestampKey: ISO8601DateFormatter().string(from: Date()),
+    ])
+
+    let newlyReferencedSongIDs = referencedSongIDs(in: syncedCollections)
+      .subtracting(previousReferencedSongIDs)
+    for (song, fileURL) in cachedSongs where newlyReferencedSongIDs.contains(song.id) {
+      queueFileTransfer(for: WatchSyncSong(song: song), fileURL: fileURL, session: session)
+    }
+
+    return "Synced playlist \(playlist.name) to the watch."
   }
 
   private func createApplicationContextPayload(
@@ -102,7 +154,7 @@ final class PhoneWatchSessionManager: NSObject {
       WatchTransferPayload.timestampKey: ISO8601DateFormatter().string(from: Date()),
       WatchTransferPayload.isReachableKey: session.isReachable,
       WatchTransferPayload.sourceKey: "phone",
-      WatchTransferPayload.songsKey: syncedSongs.map(\.dictionary),
+      WatchTransferPayload.collectionsKey: syncedCollections.map(\.dictionary),
     ]
 
     for (key, value) in overrides {
@@ -129,11 +181,53 @@ final class PhoneWatchSessionManager: NSObject {
     }
   }
 
-  private func persistSyncedSongs() {
+  private func persistSyncedCollections() {
     UserDefaults.standard.set(
-      syncedSongs.map(\.dictionary),
-      forKey: phoneSyncedSongsDefaultsKey
+      syncedCollections.map(\.dictionary),
+      forKey: phoneSyncedCollectionsDefaultsKey
     )
+  }
+
+  private func referencedSongIDs(in collections: [WatchSyncCollection]) -> Set<String> {
+    Set(collections.flatMap { $0.songs.map(\.id) })
+  }
+
+  private func collection(withID id: String) -> WatchSyncCollection? {
+    syncedCollections.first { $0.id == id }
+  }
+
+  private func upserting(
+    collection: WatchSyncCollection,
+    into collections: [WatchSyncCollection]
+  ) -> [WatchSyncCollection] {
+    var updatedCollections = collections.filter { $0.id != collection.id }
+    if collection.kind == .misc {
+      updatedCollections.insert(collection, at: 0)
+    } else {
+      updatedCollections.append(collection)
+    }
+    return updatedCollections
+  }
+
+  private func localFileURL(for song: Song) -> URL? {
+    guard let relFilePath = song.relFilePath,
+          let fileURL = CacheFileManager.shared.getAbsoluteAmperfyPath(relFilePath: relFilePath),
+          FileManager.default.fileExists(atPath: fileURL.path)
+    else { return nil }
+    return fileURL
+  }
+
+  private func queueFileTransfer(
+    for syncedSong: WatchSyncSong,
+    fileURL: URL,
+    session: WCSession
+  ) {
+    cancelOutstandingTransfers(for: syncedSong.id, session: session)
+    let fileMetadata = syncedSong.dictionary.merging([
+      WatchTransferPayload.typeKey: WatchTransferPayloadType.songFileTransfer.rawValue,
+      WatchTransferPayload.transferStateKey: "pending",
+    ]) { _, newValue in newValue }
+    session.transferFile(fileURL, metadata: fileMetadata)
   }
 
   private func cancelOutstandingTransfers(for songID: String, session: WCSession) {
@@ -144,13 +238,28 @@ final class PhoneWatchSessionManager: NSObject {
       .forEach { $0.cancel() }
   }
 
-  nonisolated private static func loadPersistedSongs() -> [WatchSyncSong] {
+  nonisolated private static func loadPersistedCollections() -> [WatchSyncCollection] {
+    if let collectionDictionaries = UserDefaults.standard.array(
+      forKey: phoneSyncedCollectionsDefaultsKey
+    ) as? [[String: Any]] {
+      return collectionDictionaries.compactMap(WatchSyncCollection.init)
+    }
+
     guard let songDictionaries = UserDefaults.standard.array(
-      forKey: phoneSyncedSongsDefaultsKey
+      forKey: phoneLegacySyncedSongsDefaultsKey
     ) as? [[String: Any]]
     else { return [] }
 
-    return songDictionaries.compactMap(WatchSyncSong.init)
+    let songs = songDictionaries.compactMap(WatchSyncSong.init)
+    guard !songs.isEmpty else { return [] }
+    return [
+      WatchSyncCollection(
+        id: WatchSyncCollection.miscID,
+        title: WatchSyncCollection.miscTitle,
+        kind: .misc,
+        songs: songs
+      ),
+    ]
   }
 
   nonisolated private static func createPingReplyPayload(

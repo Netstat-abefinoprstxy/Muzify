@@ -72,6 +72,7 @@ class EntityPreviewActionBuilder {
   private var isInstantMix = false
   private var isShareable = false
   private var isSyncToWatch = false
+  private var isSyncPlaylistToWatch = false
 
   init(
     container: PlayableContainable,
@@ -159,6 +160,10 @@ class EntityPreviewActionBuilder {
     if isSyncToWatch,
        let song = (entityContainer as? AbstractPlayable)?.asSong {
       elementHandlingActions.append(createSyncToWatchAction(song: song))
+    }
+    if isSyncPlaylistToWatch,
+       let playlist = entityContainer as? Playlist {
+      elementHandlingActions.append(createSyncPlaylistToWatchAction(playlist: playlist))
     }
     if entityContainer.playables.hasCachedItems {
       elementHandlingActions.append(createDeleteCacheAction())
@@ -333,6 +338,7 @@ class EntityPreviewActionBuilder {
     isGoToSiteUrl = false
     isShowPodcastDetails = false
     isShowSongDetails = false
+    isSyncPlaylistToWatch = true
   }
 
   private func configureFor(genre: Genre) {
@@ -784,6 +790,20 @@ class EntityPreviewActionBuilder {
       image: UIImage(systemName: "applewatch")
     ) { _ in
       let message = self.appDelegate.watchSessionManager.syncSongMetadata(song)
+      self.appDelegate.eventLogger.info(
+        topic: "Watch Sync",
+        message: message,
+        displayPopup: true
+      )
+    }
+  }
+
+  private func createSyncPlaylistToWatchAction(playlist: Playlist) -> UIAction {
+    UIAction(
+      title: "Sync Playlist to Watch",
+      image: UIImage(systemName: "applewatch")
+    ) { _ in
+      let message = self.appDelegate.watchSessionManager.syncPlaylist(playlist)
       self.appDelegate.eventLogger.info(
         topic: "Watch Sync",
         message: message,

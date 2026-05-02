@@ -3,7 +3,8 @@ import Foundation
 import OSLog
 import WatchConnectivity
 
-private let watchSyncedSongsDefaultsKey = "WatchConnectivity.syncedSongs"
+private let watchSyncedCollectionsDefaultsKey = "WatchConnectivity.syncedCollections"
+private let watchLegacySyncedSongsDefaultsKey = "WatchConnectivity.syncedSongs"
 private let watchSongsDirectoryName = "WatchSongs"
 
 private func watchSongsDirectoryURL() -> URL? {
@@ -39,13 +40,13 @@ final class WatchSessionManager: NSObject, ObservableObject {
   @Published
   var lastUpdated = "-"
   @Published
-  var syncedSongs = [WatchSyncSong]()
+  var syncedCollections = [WatchSyncCollection]()
 
   private let log = OSLog(subsystem: "Muzify", category: "WatchConnectivity")
   private let session: WCSession?
 
   override init() {
-    syncedSongs = Self.loadPersistedSongs()
+    syncedCollections = Self.loadPersistedCollections()
     if WCSession.isSupported() {
       session = WCSession.default
     } else {
@@ -115,22 +116,48 @@ final class WatchSessionManager: NSObject, ObservableObject {
     if let reachable = payload[WatchTransferPayload.isReachableKey] as? Bool {
       isReachable = reachable
     }
-    if let songDictionaries = payload[WatchTransferPayload.songsKey] as? [[String: Any]] {
+    if let collectionDictionaries = payload[WatchTransferPayload.collectionsKey] as? [[String: Any]] {
+      let incomingCollections = collectionDictionaries.compactMap(WatchSyncCollection.init)
+      applyCollections(incomingCollections)
+    } else if let songDictionaries = payload[WatchTransferPayload.songsKey] as? [[String: Any]] {
       let incomingSongs = songDictionaries.compactMap(WatchSyncSong.init)
-      syncedSongs = mergeSyncedSongs(incomingSongs)
-      persistSyncedSongs()
+      let incomingCollections = [
+        WatchSyncCollection(
+          id: WatchSyncCollection.miscID,
+          title: WatchSyncCollection.miscTitle,
+          kind: .misc,
+          songs: incomingSongs
+        ),
+      ]
+      applyCollections(incomingCollections)
     }
   }
 
-  private func mergeSyncedSongs(_ incomingSongs: [WatchSyncSong]) -> [WatchSyncSong] {
-    let existingSongsByID = Dictionary(uniqueKeysWithValues: syncedSongs.map { ($0.id, $0) })
-    return incomingSongs.map { song in
-      guard let existingSong = existingSongsByID[song.id] else { return song }
-      return song.withTransferState(
-        existingSong.transferState,
-        localFileName: existingSong.localFileName
+  private func applyCollections(_ incomingCollections: [WatchSyncCollection]) {
+    let existingSongsByID = Dictionary(uniqueKeysWithValues: allSyncedSongs.map { ($0.id, $0) })
+    let previousReferencedSongIDs = referencedSongIDs(in: syncedCollections)
+    let incomingReferencedSongIDs = referencedSongIDs(in: incomingCollections)
+    let mergedCollections = incomingCollections.map { collection in
+      WatchSyncCollection(
+        id: collection.id,
+        title: collection.title,
+        kind: collection.kind,
+        songs: collection.songs.map { song in
+          guard let existingSong = existingSongsByID[song.id] else { return song }
+          return song.withTransferState(
+            existingSong.transferState,
+            localFileName: existingSong.localFileName
+          )
+        }
       )
     }
+
+    cleanupOrphanedFiles(
+      removedSongIDs: previousReferencedSongIDs.subtracting(incomingReferencedSongIDs),
+      existingSongsByID: existingSongsByID
+    )
+    syncedCollections = mergedCollections
+    persistSyncedCollections()
   }
 
   private func markSongAsTransferred(
@@ -139,13 +166,20 @@ final class WatchSessionManager: NSObject, ObservableObject {
     message: String,
     timestamp: String
   ) {
-    syncedSongs = syncedSongs.map { song in
-      guard song.id == songID else { return song }
-      return song.withTransferState(.transferred, localFileName: localFileName)
+    syncedCollections = syncedCollections.map { collection in
+      WatchSyncCollection(
+        id: collection.id,
+        title: collection.title,
+        kind: collection.kind,
+        songs: collection.songs.map { song in
+          guard song.id == songID else { return song }
+          return song.withTransferState(.transferred, localFileName: localFileName)
+        }
+      )
     }
     lastMessage = message
     lastUpdated = timestamp
-    persistSyncedSongs()
+    persistSyncedCollections()
   }
 
   private func markSongAsFailed(
@@ -153,18 +187,55 @@ final class WatchSessionManager: NSObject, ObservableObject {
     message: String,
     timestamp: String
   ) {
-    syncedSongs = syncedSongs.map { song in
-      guard song.id == songID else { return song }
-      return song.withTransferState(.failed)
+    syncedCollections = syncedCollections.map { collection in
+      WatchSyncCollection(
+        id: collection.id,
+        title: collection.title,
+        kind: collection.kind,
+        songs: collection.songs.map { song in
+          guard song.id == songID else { return song }
+          return song.withTransferState(.failed)
+        }
+      )
     }
     lastMessage = message
     lastUpdated = timestamp
-    persistSyncedSongs()
+    persistSyncedCollections()
   }
 
-  private func persistSyncedSongs() {
-    let songDictionaries = syncedSongs.map(\.dictionary)
-    UserDefaults.standard.set(songDictionaries, forKey: watchSyncedSongsDefaultsKey)
+  var allSyncedSongs: [WatchSyncSong] {
+    var orderedSongs = [WatchSyncSong]()
+    var knownSongIDs = Set<String>()
+    for collection in syncedCollections {
+      for song in collection.songs where !knownSongIDs.contains(song.id) {
+        orderedSongs.append(song)
+        knownSongIDs.insert(song.id)
+      }
+    }
+    return orderedSongs
+  }
+
+  private func referencedSongIDs(in collections: [WatchSyncCollection]) -> Set<String> {
+    Set(collections.flatMap(\.referencedSongIDs))
+  }
+
+  private func cleanupOrphanedFiles(
+    removedSongIDs: Set<String>,
+    existingSongsByID: [String: WatchSyncSong]
+  ) {
+    guard !removedSongIDs.isEmpty else { return }
+    for songID in removedSongIDs {
+      guard let localFileName = existingSongsByID[songID]?.localFileName,
+            let directoryURL = watchSongsDirectoryURL()
+      else { continue }
+      let fileURL = directoryURL.appendingPathComponent(localFileName, isDirectory: false)
+      try? FileManager.default.removeItem(at: fileURL)
+    }
+  }
+
+  private func persistSyncedCollections() {
+    let collectionDictionaries = syncedCollections.map(\.dictionary)
+    UserDefaults.standard.set(collectionDictionaries, forKey: watchSyncedCollectionsDefaultsKey)
   }
 
   func localFileURL(for song: WatchSyncSong) -> URL? {
@@ -178,13 +249,33 @@ final class WatchSessionManager: NSObject, ObservableObject {
     return fileURL
   }
 
-  nonisolated private static func loadPersistedSongs() -> [WatchSyncSong] {
+  func song(withID id: String?) -> WatchSyncSong? {
+    guard let id else { return nil }
+    return allSyncedSongs.first { $0.id == id }
+  }
+
+  nonisolated private static func loadPersistedCollections() -> [WatchSyncCollection] {
+    if let collectionDictionaries = UserDefaults.standard.array(
+      forKey: watchSyncedCollectionsDefaultsKey
+    ) as? [[String: Any]] {
+      return collectionDictionaries.compactMap(WatchSyncCollection.init)
+    }
+
     guard let songDictionaries = UserDefaults.standard.array(
-      forKey: watchSyncedSongsDefaultsKey
+      forKey: watchLegacySyncedSongsDefaultsKey
     ) as? [[String: Any]]
     else { return [] }
 
-    return songDictionaries.compactMap(WatchSyncSong.init)
+    let songs = songDictionaries.compactMap(WatchSyncSong.init)
+    guard !songs.isEmpty else { return [] }
+    return [
+      WatchSyncCollection(
+        id: WatchSyncCollection.miscID,
+        title: WatchSyncCollection.miscTitle,
+        kind: .misc,
+        songs: songs
+      ),
+    ]
   }
 }
 

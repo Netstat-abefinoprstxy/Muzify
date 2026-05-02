@@ -28,47 +28,53 @@ struct ContentView: View {
           .foregroundStyle(.secondary)
       }
 
-      Section("Watch Library") {
-        if watchSessionManager.syncedSongs.isEmpty {
+      if watchSessionManager.syncedCollections.isEmpty {
+        Section("Watch Library") {
           Text("No songs synced yet")
             .foregroundStyle(.secondary)
-        } else {
-          ForEach(watchSessionManager.syncedSongs) { song in
-            Button {
-              watchPlaybackManager.togglePlayback(
-                for: song,
-                fileURL: watchSessionManager.localFileURL(for: song)
-              )
-            } label: {
-              VStack(alignment: .leading, spacing: 2) {
-                HStack {
-                  Text(song.title)
-                    .font(.headline)
-                    .lineLimit(1)
-                  Spacer(minLength: 8)
-                  if watchPlaybackManager.currentSongID == song.id {
-                    Image(systemName: watchPlaybackManager.isPlaying ? "pause.circle" : "play.circle")
-                      .foregroundStyle(.tint)
-                  }
-                }
-                Text(song.artist)
-                  .font(.subheadline)
-                  .foregroundStyle(.secondary)
-                  .lineLimit(1)
-                HStack {
-                  if !song.album.isEmpty {
-                    Text(song.album)
+        }
+      } else {
+        ForEach(watchSessionManager.syncedCollections) { collection in
+          Section(collection.title) {
+            ForEach(collection.songs) { song in
+              Button {
+                watchPlaybackManager.togglePlayback(
+                  for: song,
+                  fileURL: watchSessionManager.localFileURL(for: song)
+                )
+              } label: {
+                VStack(alignment: .leading, spacing: 2) {
+                  HStack {
+                    Text(song.title)
+                      .font(.headline)
                       .lineLimit(1)
+                    Spacer(minLength: 8)
+                    if watchPlaybackManager.currentSongID == song.id {
+                      Image(
+                        systemName: watchPlaybackManager.isPlaying ? "pause.circle" : "play.circle"
+                      )
+                      .foregroundStyle(.tint)
+                    }
                   }
-                  Spacer(minLength: 8)
-                  Text(formattedDuration(song.duration))
-                  Text(transferStateText(song.transferState))
+                  Text(song.artist)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                  HStack {
+                    if !song.album.isEmpty {
+                      Text(song.album)
+                        .lineLimit(1)
+                    }
+                    Spacer(minLength: 8)
+                    Text(formattedDuration(song.duration))
+                    Text(transferStateText(song.transferState))
+                  }
+                  .font(.footnote)
+                  .foregroundStyle(.secondary)
                 }
-                .font(.footnote)
-                .foregroundStyle(.secondary)
               }
+              .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
           }
         }
       }
@@ -84,9 +90,8 @@ struct ContentView: View {
             .font(.footnote)
             .foregroundStyle(.secondary)
           Button(watchPlaybackManager.isPlaying ? "Pause" : "Resume") {
-            guard let currentSong = watchSessionManager.syncedSongs.first(
-              where: { $0.id == watchPlaybackManager.currentSongID }
-            ) else { return }
+            guard let currentSong = watchSessionManager.song(withID: watchPlaybackManager.currentSongID)
+            else { return }
             watchPlaybackManager.togglePlayback(
               for: currentSong,
               fileURL: watchSessionManager.localFileURL(for: currentSong)
