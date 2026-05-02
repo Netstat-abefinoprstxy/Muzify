@@ -825,7 +825,7 @@
 		50814C9E27D9FE460072738F /* Amperfy v23.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Amperfy v23.xcdatamodel"; sourceTree = "<group>"; };
 		50814C9F27D9FF660072738F /* ScrobbleEntryMO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrobbleEntryMO+CoreDataClass.swift"; sourceTree = "<group>"; };
 		50814CA027D9FF660072738F /* ScrobbleEntryMO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrobbleEntryMO+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		508385E421C5965B00C4BB32 /* Amperfy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amperfy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		508385E421C5965B00C4BB32 /* Muzify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muzify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		508385E721C5965B00C4BB32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		508385E921C5965B00C4BB32 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		508385EC21C5965B00C4BB32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1507,7 +1507,7 @@
 		508385E521C5965B00C4BB32 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				508385E421C5965B00C4BB32 /* Amperfy.app */,
+				508385E421C5965B00C4BB32 /* Muzify.app */,
 				50C9D605284FA847007F18D0 /* AmperfyKit.framework */,
 				50C9D60E284FA847007F18D0 /* AmperfyKitTests.xctest */,
 				3DB86A4F2FA65E22004AC097 /* MuzifyWatchApp Watch App.app */,
@@ -2260,9 +2260,9 @@
 			productReference = 3DB86A4F2FA65E22004AC097 /* MuzifyWatchApp Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
-		508385E321C5965B00C4BB32 /* Amperfy */ = {
+		508385E321C5965B00C4BB32 /* Muzify */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Amperfy" */;
+			buildConfigurationList = 5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Muzify" */;
 			buildPhases = (
 				508385E021C5965B00C4BB32 /* Sources */,
 				508385E121C5965B00C4BB32 /* Frameworks */,
@@ -2278,7 +2278,7 @@
 				50C9D619284FA847007F18D0 /* PBXTargetDependency */,
 				3DB86A582FA65E23004AC097 /* PBXTargetDependency */,
 			);
-			name = Amperfy;
+			name = Muzify;
 			packageProductDependencies = (
 				509D55F7281274F500E0E0B5 /* VYPlayIndicator */,
 				507DFE4B2B1E57BE002BBB1D /* MarqueeLabel */,
@@ -2290,8 +2290,8 @@
 				500E70D12E2FD63900636770 /* DominantColors */,
 				50699C812ED859B20039BECD /* AudioStreaming */,
 			);
-			productName = Amperfy;
-			productReference = 508385E421C5965B00C4BB32 /* Amperfy.app */;
+			productName = Muzify;
+			productReference = 508385E421C5965B00C4BB32 /* Muzify.app */;
 			productType = "com.apple.product-type.application";
 		};
 		50C9D604284FA847007F18D0 /* AmperfyKit */ = {
@@ -2378,7 +2378,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Amperfy" */;
+			buildConfigurationList = 508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Muzify" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -2403,7 +2403,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				508385E321C5965B00C4BB32 /* Amperfy */,
+				508385E321C5965B00C4BB32 /* Muzify */,
 				50C9D604284FA847007F18D0 /* AmperfyKit */,
 				50C9D60D284FA847007F18D0 /* AmperfyKitTests */,
 				3DB86A4E2FA65E22004AC097 /* MuzifyWatchApp Watch App */,
@@ -3249,7 +3249,7 @@
 		5083860D21C5965E00C4BB32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AmperfyAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Amperfy/Amperfy.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -3289,7 +3289,7 @@
 		5083860E21C5965E00C4BB32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AmperfyAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Amperfy/Amperfy.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -3456,7 +3456,7 @@
 				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Amperfy.app/Amperfy";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muzify.app/Muzify";
 			};
 			name = Debug;
 		};
@@ -3488,7 +3488,7 @@
 				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Amperfy.app/Amperfy";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muzify.app/Muzify";
 			};
 			name = Release;
 		};
@@ -3504,7 +3504,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Amperfy" */ = {
+		508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Muzify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5083860A21C5965E00C4BB32 /* Debug */,
@@ -3513,7 +3513,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Amperfy" */ = {
+		5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Muzify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5083860D21C5965E00C4BB32 /* Debug */,

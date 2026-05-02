@@ -18,7 +18,7 @@
                BlueprintIdentifier = "508EBB2D2850C9460053D9F0"
                BuildableName = "AmperfyIntents.appex"
                BlueprintName = "AmperfyIntents"
-               ReferencedContainer = "container:Amperfy.xcodeproj">
+               ReferencedContainer = "container:Muzify.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "508385E321C5965B00C4BB32"
-               BuildableName = "Amperfy.app"
-               BlueprintName = "Amperfy"
-               ReferencedContainer = "container:Amperfy.xcodeproj">
+               BuildableName = "Muzify.app"
+               BlueprintName = "Muzify"
+               ReferencedContainer = "container:Muzify.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -66,9 +66,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "508385E321C5965B00C4BB32"
-            BuildableName = "Amperfy.app"
-            BlueprintName = "Amperfy"
-            ReferencedContainer = "container:Amperfy.xcodeproj">
+            BuildableName = "Muzify.app"
+            BlueprintName = "Muzify"
+            ReferencedContainer = "container:Muzify.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "508385E321C5965B00C4BB32"
-            BuildableName = "Amperfy.app"
-            BlueprintName = "Amperfy"
-            ReferencedContainer = "container:Amperfy.xcodeproj">
+            BuildableName = "Muzify.app"
+            BlueprintName = "Muzify"
+            ReferencedContainer = "container:Muzify.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
