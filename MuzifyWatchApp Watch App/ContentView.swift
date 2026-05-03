@@ -36,7 +36,7 @@ struct ContentView: View {
           }
         }
       }
-      .navigationTitle("Muzify")
+      .navigationTitle("Muzeflow")
       .toolbar {
         if !watchPlaybackManager.currentSongTitle.isEmpty {
           ToolbarItem(placement: .topBarLeading) {

@@ -73,6 +73,9 @@ class EntityPreviewActionBuilder {
   private var isShareable = false
   private var isSyncToWatch = false
   private var isSyncPlaylistToWatch = false
+  private var isWatchSyncAvailable: Bool {
+    !ProcessInfo.processInfo.isMacCatalystApp
+  }
 
   init(
     container: PlayableContainable,
@@ -277,7 +280,7 @@ class EntityPreviewActionBuilder {
     isShowSongDetails = true
     isInstantMix = appDelegate.storage.settings.user.isOnlineMode
     isShareable = song.isCached || appDelegate.storage.settings.user.isOnlineMode
-    isSyncToWatch = song.isCached
+    isSyncToWatch = isWatchSyncAvailable && song.isCached
   }
 
   private func configureFor(podcastEpisode: PodcastEpisode) {
@@ -338,7 +341,7 @@ class EntityPreviewActionBuilder {
     isGoToSiteUrl = false
     isShowPodcastDetails = false
     isShowSongDetails = false
-    isSyncPlaylistToWatch = true
+    isSyncPlaylistToWatch = isWatchSyncAvailable
   }
 
   private func configureFor(genre: Genre) {

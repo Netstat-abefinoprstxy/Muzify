@@ -42,7 +42,7 @@ final class WatchSessionManager: NSObject, ObservableObject {
   @Published
   var syncedCollections = [WatchSyncCollection]()
 
-  private let log = OSLog(subsystem: "Muzify", category: "WatchConnectivity")
+  private let log = OSLog(subsystem: "Muzeflow", category: "WatchConnectivity")
   private let session: WCSession?
 
   override init() {

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		09EB5F102F93B96E00B1C71C /* ShareSongAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB5F0D2F93B65400B1C71C /* ShareSongAction.swift */; };
-		3DB86A592FA65E23004AC097 /* Muzeflow Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3DB86A4F2FA65E22004AC097 /* Muzeflow Watch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3DB86A592FA65E23004AC097 /* Muzeflow Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3DB86A4F2FA65E22004AC097 /* Muzeflow Watch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3DD32C052FA67178007484A4 /* PhoneWatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD32C022FA67178007484A4 /* PhoneWatchSessionManager.swift */; };
 		3DD32C062FA67178007484A4 /* WatchTransferPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD32C032FA67178007484A4 /* WatchTransferPayload.swift */; };
 		43FBE27F250D4DFD00D5F9B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43FBE27E250D4DFD00D5F9B3 /* LaunchScreen.storyboard */; };
@@ -2995,6 +2995,7 @@
 /* Begin PBXTargetDependency section */
 		3DB86A582FA65E23004AC097 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 3DB86A4E2FA65E22004AC097 /* Muzeflow Watch */;
 			targetProxy = 3DB86A572FA65E23004AC097 /* PBXContainerItemProxy */;
 		};
@@ -3050,7 +3051,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -3090,7 +3091,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -3251,8 +3252,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
-				"MARKETING_VERSION[sdk=macosx*]" = 0.9.0;
+				MARKETING_VERSION = 0.9.2;
+				"MARKETING_VERSION[sdk=macosx*]" = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.muzeflow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3292,8 +3293,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
-				"MARKETING_VERSION[sdk=macosx*]" = 0.9.0;
+				MARKETING_VERSION = 0.9.2;
+				"MARKETING_VERSION[sdk=macosx*]" = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.muzeflow;
 				PRODUCT_NAME = "$(TARGET_NAME)";

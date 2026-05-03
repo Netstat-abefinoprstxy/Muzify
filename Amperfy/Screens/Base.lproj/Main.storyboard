@@ -13,7 +13,7 @@
         <!--Library Sync PopupVC-->
         <scene sceneID="eYN-tJ-QKO">
             <objects>
-                <viewController storyboardIdentifier="LibrarySyncPopupVC" id="4fV-g4-CJz" customClass="LibrarySyncPopupVC" customModule="Amperfy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LibrarySyncPopupVC" id="4fV-g4-CJz" customClass="LibrarySyncPopupVC" customModule="Muzeflow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CZT-70-aub">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -21,7 +21,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a7T-Uc-nlO">
                                 <rect key="frame" x="32.666666666666657" y="166" width="310" height="360"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" preferredBehavioralStyle="pad" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jwb-Ck-Kjx" userLabel="Optional Button" customClass="BasicButton" customModule="Amperfy" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" preferredBehavioralStyle="pad" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jwb-Ck-Kjx" userLabel="Optional Button" customClass="BasicButton" customModule="Muzeflow" customModuleProvider="target">
                                         <rect key="frame" x="58" y="262" width="194" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -43,7 +43,7 @@
                                             <action selector="optionalButtonPressed:" destination="4fV-g4-CJz" eventType="touchUpInside" id="zna-d1-9Zh"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" preferredBehavioralStyle="pad" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oJc-Ob-FSO" customClass="BasicButton" customModule="Amperfy" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" preferredBehavioralStyle="pad" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oJc-Ob-FSO" customClass="BasicButton" customModule="Muzeflow" customModuleProvider="target">
                                         <rect key="frame" x="58" y="302" width="194" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -162,7 +162,7 @@
         <!--SyncVC-->
         <scene sceneID="2mS-PW-dbY">
             <objects>
-                <viewController storyboardIdentifier="SyncVC" id="n1j-bZ-g7e" customClass="SyncVC" customModule="Amperfy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SyncVC" id="n1j-bZ-g7e" customClass="SyncVC" customModule="Muzeflow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eKy-0T-u87">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -197,7 +197,7 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="3en-Wv-ZMc">
                                 <rect key="frame" x="330" y="326" width="20" height="20"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" preferredBehavioralStyle="pad" translatesAutoresizingMaskIntoConstraints="NO" id="stS-Nk-8XD" customClass="BasicButton" customModule="Amperfy" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" preferredBehavioralStyle="pad" translatesAutoresizingMaskIntoConstraints="NO" id="stS-Nk-8XD" customClass="BasicButton" customModule="Muzeflow" customModuleProvider="target">
                                 <rect key="frame" x="270" y="382" width="80" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -251,7 +251,7 @@
         <!--UpdateVC-->
         <scene sceneID="kZi-gb-Ied">
             <objects>
-                <viewController storyboardIdentifier="UpdateVC" id="aa1-XZ-0Qq" customClass="UpdateVC" customModule="Amperfy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UpdateVC" id="aa1-XZ-0Qq" customClass="UpdateVC" customModule="Muzeflow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S8S-p0-qnj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

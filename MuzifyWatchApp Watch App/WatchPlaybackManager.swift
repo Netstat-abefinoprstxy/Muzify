@@ -22,7 +22,7 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
   @Published
   var queueTitle = ""
 
-  private let log = OSLog(subsystem: "Muzify", category: "WatchPlayback")
+  private let log = OSLog(subsystem: "Muzeflow", category: "WatchPlayback")
   private var player: AVPlayer?
   private var endObserver: NSObjectProtocol?
   private var playerStatusObservation: NSKeyValueObservation?
