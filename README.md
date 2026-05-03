@@ -4,6 +4,8 @@
 
 Muzeflow is an iOS/iPadOS/macOS app written in Swift to interact with an [Ampache](http://ampache.github.io) or [Subsonic](http://www.subsonic.org) server.
 
+Muzeflow is a fork of [Amperfy](https://github.com/BLeeEZ/Amperfy) with a focus on expanding Apple Watch support, especially around more independent offline playback for activities like running, walking, and workouts. The goal is to keep building on Amperfy's strong foundation while exploring watch-first functionality that may eventually be suitable to merge back upstream.
+
 ### iOS
 
 <a href="https://apps.apple.com/app/amperfy-music/id1530145038#?platform=iphone">
@@ -38,6 +40,20 @@ Muzeflow is an iOS/iPadOS/macOS app written in Swift to interact with an [Ampach
 - Sleep Timer
 - Scrobbling
 
+## Apple Watch Support
+
+Muzeflow includes ongoing work around Apple Watch companion support with a particular focus on offline playback away from the phone.
+
+Current direction:
+
+- Companion Apple Watch app support
+- Phone-to-watch metadata sync
+- Phone-to-watch audio file transfer
+- Watch-local playback of transferred songs
+- Playlist-oriented syncing for activity-focused use cases
+
+The long-term intent is to keep these changes practical and additive, with an openness to contributing suitable improvements back to Amperfy in the future.
+
 ## Requirements
 
 * Xcode 26, Swift 6
@@ -46,15 +62,15 @@ Muzeflow is an iOS/iPadOS/macOS app written in Swift to interact with an [Ampach
 
 1. Check out the latest version of the project:
   ```
-  git clone https://github.com/BLeeEZ/amperfy.git
-  cd amperfy
+  git clone <your-fork-url>
+  cd Muzify
   ```
 
-3. Open the `Amperfy.xcodeproj` file.
+3. Open the `Muzeflow.xcodeproj` file.
 
-4. Build and run the "Amperfy" scheme
+4. Build and run the `Muzeflow` scheme
 
-  >Real device testing: Amperfy has Apple CarPlay and Siri support. To test it on a real device a developer certificate with granted access to `com.apple.developer.playable-content` and `com.apple.developer.siri` is required. To test Amperfy without Apple CarPlay and Siri clear all entries in `Amperfy/Amperfy.entitlements`.
+  >Real device testing: Muzeflow has Apple CarPlay and Siri support. To test it on a real device a developer certificate with granted access to `com.apple.developer.playable-content` and `com.apple.developer.siri` is required. To test Muzeflow without Apple CarPlay and Siri clear all entries in `Amperfy/Amperfy.entitlements`.
 
 ## Beta test releases
 
