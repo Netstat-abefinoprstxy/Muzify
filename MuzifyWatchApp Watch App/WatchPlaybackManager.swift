@@ -168,7 +168,8 @@ final class WatchPlaybackManager: NSObject, ObservableObject {
     removePlayerObservers()
 
     let playerItem = AVPlayerItem(url: fileURL)
-    let player = AVPlayer(playerItem: playerItem)
+    let player = self.player ?? AVPlayer()
+    player.replaceCurrentItem(with: playerItem)
     self.player = player
     currentSongID = song.id
     currentSongTitle = song.title
