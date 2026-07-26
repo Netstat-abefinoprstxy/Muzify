@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PopupPlayerVC" customModule="Amperfy" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PopupPlayerVC" customModule="Muzeflow" customModuleProvider="target">
             <connections>
                 <outlet property="backgroundImage" destination="uc4-Rw-bKA" id="WkZ-wK-VH1"/>
                 <outlet property="closeButtonPlaceholderView" destination="GMI-oz-xsz" id="fsR-sA-Fra"/>

@@ -8,6 +8,8 @@
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Muzeflow</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -39,9 +41,9 @@
 	<array>
 		<dict>
 			<key>INAlternativeAppName</key>
-			<string>Amperfy Music</string>
+			<string>Muzeflow Music</string>
 			<key>INAlternativeAppNamePronunciationHint</key>
-			<string>amperfy music</string>
+			<string>myoo-zih-fy music</string>
 		</dict>
 	</array>
 	<key>INIntentsSupported</key>

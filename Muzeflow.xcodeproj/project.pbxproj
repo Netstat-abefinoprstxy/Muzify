@@ -3,11 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		09EB5F102F93B96E00B1C71C /* ShareSongAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB5F0D2F93B65400B1C71C /* ShareSongAction.swift */; };
+		3DB86A592FA65E23004AC097 /* Muzeflow Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3DB86A4F2FA65E22004AC097 /* Muzeflow Watch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3DD32C052FA67178007484A4 /* PhoneWatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD32C022FA67178007484A4 /* PhoneWatchSessionManager.swift */; };
+		3DD32C062FA67178007484A4 /* WatchTransferPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD32C032FA67178007484A4 /* WatchTransferPayload.swift */; };
 		43FBE27F250D4DFD00D5F9B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43FBE27E250D4DFD00D5F9B3 /* LaunchScreen.storyboard */; };
 		5003D8FB267B3390006946BF /* LibrarySyncPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5003D8FA267B3390006946BF /* LibrarySyncPopupVC.swift */; };
 		5005938928E2D4EF008C8DF6 /* CommonCollectionSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5005938828E2D4EF008C8DF6 /* CommonCollectionSectionHeader.xib */; };
@@ -205,7 +208,6 @@
 		50BE5D532850F4E700156FC6 /* MusicPlayerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5095F98B23C8389E008B0805 /* MusicPlayerTest.swift */; };
 		50BE5D542850F4E700156FC6 /* SubsonicVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E964AE25E8E25E00E3210F /* SubsonicVersionTest.swift */; };
 		50BE5D552850F4E700156FC6 /* UtilitiesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5090963726496A9500DD9826 /* UtilitiesTest.swift */; };
-		B5A5CE010000000000000001 /* ShareSongActionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A5CE010000000000000002 /* ShareSongActionTest.swift */; };
 		50BE5D562850F4E700156FC6 /* PlayQueueHandlerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011712D27453D1300B7C08D /* PlayQueueHandlerTest.swift */; };
 		50BE5D572850F4F600156FC6 /* album_missing_artistId.xml in Resources */ = {isa = PBXBuildFile; fileRef = 50ED2B9227BB932700331BF7 /* album_missing_artistId.xml */; };
 		50BE5D582850F4F600156FC6 /* artist_example_1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 50AB92C526661F5800DCE45C /* artist_example_1.xml */; };
@@ -530,13 +532,21 @@
 		632F51262C83A8400032860D /* LyricsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632F51252C83A8400032860D /* LyricsVC.swift */; };
 		6333C8E12C6FDB5200CCA50A /* SecondaryText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333C8E02C6FDB5200CCA50A /* SecondaryText.swift */; };
 		637A28B52C79409C0082FACC /* MiniPlayerSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637A28B42C79409B0082FACC /* MiniPlayerSceneDelegate.swift */; };
-		C0A1B0032EEE000000000003 /* MacWindowHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1B0022EEE000000000002 /* MacWindowHelper.swift */; };
 		638920F02C8C8E9000932EE8 /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638920EF2C8C8E9000932EE8 /* SettingsList.swift */; };
 		63DCDB7A2C674B5D00522F68 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DCDB792C674B5D00522F68 /* SettingsSceneDelegate.swift */; };
 		641708592C13BF5100BA2619 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641708582C13BF5100BA2619 /* Haptics.swift */; };
+		B5A5CE010000000000000001 /* ShareSongActionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A5CE010000000000000002 /* ShareSongActionTest.swift */; };
+		C0A1B0032EEE000000000003 /* MacWindowHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1B0022EEE000000000002 /* MacWindowHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3DB86A572FA65E23004AC097 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 508385DC21C5965B00C4BB32 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3DB86A4E2FA65E22004AC097;
+			remoteInfo = "Muzeflow Watch";
+		};
 		50C9D610284FA847007F18D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 508385DC21C5965B00C4BB32 /* Project object */;
@@ -561,6 +571,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3DB86A5D2FA65E23004AC097 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				3DB86A592FA65E23004AC097 /* Muzeflow Watch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50253FA1284A5EEB00BCCFB2 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -595,6 +616,9 @@
 
 /* Begin PBXFileReference section */
 		09EB5F0D2F93B65400B1C71C /* ShareSongAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSongAction.swift; sourceTree = "<group>"; };
+		3DB86A4F2FA65E22004AC097 /* Muzeflow Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Muzeflow Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DD32C022FA67178007484A4 /* PhoneWatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneWatchSessionManager.swift; sourceTree = "<group>"; };
+		3DD32C032FA67178007484A4 /* WatchTransferPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTransferPayload.swift; sourceTree = "<group>"; };
 		43FBE27E250D4DFD00D5F9B3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5002565625E69DC700674CE1 /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
 		5003D8F62678DD39006946BF /* SsAlbumParserPreCreatedArtistsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SsAlbumParserPreCreatedArtistsTest.swift; sourceTree = "<group>"; };
@@ -801,7 +825,7 @@
 		50814C9E27D9FE460072738F /* Amperfy v23.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Amperfy v23.xcdatamodel"; sourceTree = "<group>"; };
 		50814C9F27D9FF660072738F /* ScrobbleEntryMO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrobbleEntryMO+CoreDataClass.swift"; sourceTree = "<group>"; };
 		50814CA027D9FF660072738F /* ScrobbleEntryMO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrobbleEntryMO+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		508385E421C5965B00C4BB32 /* Amperfy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amperfy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		508385E421C5965B00C4BB32 /* Muzeflow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Muzeflow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		508385E721C5965B00C4BB32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		508385E921C5965B00C4BB32 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		508385EC21C5965B00C4BB32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -840,7 +864,6 @@
 		509001C027182A1300A8056D /* CatalogParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogParserTest.swift; sourceTree = "<group>"; };
 		509001C227182A4700A8056D /* CatalogParserDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogParserDelegate.swift; sourceTree = "<group>"; };
 		5090963726496A9500DD9826 /* UtilitiesTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesTest.swift; sourceTree = "<group>"; };
-		B5A5CE010000000000000002 /* ShareSongActionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSongActionTest.swift; sourceTree = "<group>"; };
 		509357512E3BF47800CD4075 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
 		509362EC28E041FF005C2AAC /* Amperfy v28.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Amperfy v28.xcdatamodel"; sourceTree = "<group>"; };
 		50947E0227DA011F00C368D7 /* ScrobbleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrobbleEntry.swift; sourceTree = "<group>"; };
@@ -1148,15 +1171,27 @@
 		632F51252C83A8400032860D /* LyricsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsVC.swift; sourceTree = "<group>"; };
 		6333C8E02C6FDB5200CCA50A /* SecondaryText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryText.swift; sourceTree = "<group>"; };
 		637A28B42C79409B0082FACC /* MiniPlayerSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerSceneDelegate.swift; sourceTree = "<group>"; };
-		C0A1B0022EEE000000000002 /* MacWindowHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacWindowHelper.swift; sourceTree = "<group>"; };
 		638920EF2C8C8E9000932EE8 /* SettingsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsList.swift; sourceTree = "<group>"; };
 		63DCDB792C674B5D00522F68 /* SettingsSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSceneDelegate.swift; sourceTree = "<group>"; };
 		641708582C13BF5100BA2619 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		643A04712CD29AB20012DEA3 /* Amperfy v39.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Amperfy v39.xcdatamodel"; sourceTree = "<group>"; };
 		64C433822E1391FA0082A165 /* Amperfy v46.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Amperfy v46.xcdatamodel"; sourceTree = "<group>"; };
+		B5A5CE010000000000000002 /* ShareSongActionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSongActionTest.swift; sourceTree = "<group>"; };
+		C0A1B0022EEE000000000002 /* MacWindowHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacWindowHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3DB86A502FA65E22004AC097 /* MuzifyWatchApp Watch App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "MuzifyWatchApp Watch App"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		3DB86A4C2FA65E22004AC097 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		508385E121C5965B00C4BB32 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1201,6 +1236,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3DD32C042FA67178007484A4 /* WatchConnectivity */ = {
+			isa = PBXGroup;
+			children = (
+				3DD32C022FA67178007484A4 /* PhoneWatchSessionManager.swift */,
+				3DD32C032FA67178007484A4 /* WatchTransferPayload.swift */,
+			);
+			path = WatchConnectivity;
+			sourceTree = "<group>";
+		};
 		50073BDB222EFEDC000130D8 /* Download */ = {
 			isa = PBXGroup;
 			children = (
@@ -1444,6 +1488,7 @@
 				508385E621C5965B00C4BB32 /* Amperfy */,
 				50C9D606284FA847007F18D0 /* AmperfyKit */,
 				50C9D614284FA847007F18D0 /* AmperfyKitTests */,
+				3DB86A502FA65E22004AC097 /* MuzifyWatchApp Watch App */,
 				508385E521C5965B00C4BB32 /* Products */,
 				5091857E23A753C800A8891E /* Frameworks */,
 			);
@@ -1452,9 +1497,10 @@
 		508385E521C5965B00C4BB32 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				508385E421C5965B00C4BB32 /* Amperfy.app */,
+				508385E421C5965B00C4BB32 /* Muzeflow.app */,
 				50C9D605284FA847007F18D0 /* AmperfyKit.framework */,
 				50C9D60E284FA847007F18D0 /* AmperfyKitTests.xctest */,
+				3DB86A4F2FA65E22004AC097 /* Muzeflow Watch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1462,6 +1508,7 @@
 		508385E621C5965B00C4BB32 /* Amperfy */ = {
 			isa = PBXGroup;
 			children = (
+				3DD32C042FA67178007484A4 /* WatchConnectivity */,
 				508385E721C5965B00C4BB32 /* AppDelegate.swift */,
 				5059A31B28A9ED680068E4D2 /* SceneDelegate.swift */,
 				63DCDB792C674B5D00522F68 /* SettingsSceneDelegate.swift */,
@@ -2181,9 +2228,31 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		508385E321C5965B00C4BB32 /* Amperfy */ = {
+		3DB86A4E2FA65E22004AC097 /* Muzeflow Watch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Amperfy" */;
+			buildConfigurationList = 3DB86A5A2FA65E23004AC097 /* Build configuration list for PBXNativeTarget "Muzeflow Watch" */;
+			buildPhases = (
+				3DB86A4B2FA65E22004AC097 /* Sources */,
+				3DB86A4C2FA65E22004AC097 /* Frameworks */,
+				3DB86A4D2FA65E22004AC097 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3DB86A502FA65E22004AC097 /* MuzifyWatchApp Watch App */,
+			);
+			name = "Muzeflow Watch";
+			packageProductDependencies = (
+			);
+			productName = "Muzeflow Watch";
+			productReference = 3DB86A4F2FA65E22004AC097 /* Muzeflow Watch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		508385E321C5965B00C4BB32 /* Muzeflow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Muzeflow" */;
 			buildPhases = (
 				508385E021C5965B00C4BB32 /* Sources */,
 				508385E121C5965B00C4BB32 /* Frameworks */,
@@ -2191,13 +2260,15 @@
 				5054687F2625CC61008005EC /* Embed Frameworks */,
 				50253FA1284A5EEB00BCCFB2 /* Embed Foundation Extensions */,
 				50C1CD9E2C93340900629993 /* CopyFiles */,
+				3DB86A5D2FA65E23004AC097 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				50C9D619284FA847007F18D0 /* PBXTargetDependency */,
+				3DB86A582FA65E23004AC097 /* PBXTargetDependency */,
 			);
-			name = Amperfy;
+			name = Muzeflow;
 			packageProductDependencies = (
 				509D55F7281274F500E0E0B5 /* VYPlayIndicator */,
 				507DFE4B2B1E57BE002BBB1D /* MarqueeLabel */,
@@ -2209,8 +2280,8 @@
 				500E70D12E2FD63900636770 /* DominantColors */,
 				50699C812ED859B20039BECD /* AudioStreaming */,
 			);
-			productName = Amperfy;
-			productReference = 508385E421C5965B00C4BB32 /* Amperfy.app */;
+			productName = Muzeflow;
+			productReference = 508385E421C5965B00C4BB32 /* Muzeflow.app */;
 			productType = "com.apple.product-type.application";
 		};
 		50C9D604284FA847007F18D0 /* AmperfyKit */ = {
@@ -2272,10 +2343,13 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = "Maximilian Bauer";
 				TargetAttributes = {
+					3DB86A4E2FA65E22004AC097 = {
+						CreatedOnToolsVersion = 26.3;
+					};
 					508385E321C5965B00C4BB32 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
@@ -2294,7 +2368,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Amperfy" */;
+			buildConfigurationList = 508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Muzeflow" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -2319,14 +2393,22 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				508385E321C5965B00C4BB32 /* Amperfy */,
+				508385E321C5965B00C4BB32 /* Muzeflow */,
 				50C9D604284FA847007F18D0 /* AmperfyKit */,
 				50C9D60D284FA847007F18D0 /* AmperfyKitTests */,
+				3DB86A4E2FA65E22004AC097 /* Muzeflow Watch */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3DB86A4D2FA65E22004AC097 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		508385E221C5965B00C4BB32 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2437,6 +2519,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3DB86A4B2FA65E22004AC097 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		508385E021C5965B00C4BB32 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2491,6 +2580,8 @@
 				6333C8E12C6FDB5200CCA50A /* SecondaryText.swift in Sources */,
 				50A30E4F2B73DDC800722894 /* PlayerControlView.swift in Sources */,
 				632F51262C83A8400032860D /* LyricsVC.swift in Sources */,
+				3DD32C052FA67178007484A4 /* PhoneWatchSessionManager.swift in Sources */,
+				3DD32C062FA67178007484A4 /* WatchTransferPayload.swift in Sources */,
 				509001B82716C8F400A8056D /* AppDelegateNotificationExtensions.swift in Sources */,
 				50A30E5C2B7556FB00722894 /* PopupPlayer+TableViewExtension.swift in Sources */,
 				637A28B52C79409C0082FACC /* MiniPlayerSceneDelegate.swift in Sources */,
@@ -2902,6 +2993,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3DB86A582FA65E23004AC097 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = 3DB86A4E2FA65E22004AC097 /* Muzeflow Watch */;
+			targetProxy = 3DB86A572FA65E23004AC097 /* PBXContainerItemProxy */;
+		};
 		50C9D611284FA847007F18D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 50C9D604284FA847007F18D0 /* AmperfyKit */;
@@ -2909,7 +3006,7 @@
 		};
 		50C9D613284FA847007F18D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 508385E321C5965B00C4BB32 /* Amperfy */;
+			target = 508385E321C5965B00C4BB32 /* Muzeflow */;
 			targetProxy = 50C9D612284FA847007F18D0 /* PBXContainerItemProxy */;
 		};
 		50C9D619284FA847007F18D0 /* PBXTargetDependency */ = {
@@ -2931,6 +3028,85 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3DB86A5B2FA65E23004AC097 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = BCKUUXG435;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MuzifyWatchApp-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Muzeflow Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.appflair.muzeflow;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.9.2;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		3DB86A5C2FA65E23004AC097 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = BCKUUXG435;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MuzifyWatchApp-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Muzeflow Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.appflair.muzeflow;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.9.2;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 		5083860A21C5965E00C4BB32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3064,20 +3240,22 @@
 		5083860D21C5965E00C4BB32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AmperfyAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Amperfy/Amperfy.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = BCKUUXG435;
 				INFOPLIST_FILE = Amperfy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
-				"MARKETING_VERSION[sdk=macosx*]" = 2.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.familie-zimba.amperfy-music";
+				MARKETING_VERSION = 0.9.2;
+				"MARKETING_VERSION[sdk=macosx*]" = 0.9.2;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.muzeflow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3103,20 +3281,22 @@
 		5083860E21C5965E00C4BB32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AmperfyAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Amperfy/Amperfy.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = BCKUUXG435;
 				INFOPLIST_FILE = Amperfy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
-				"MARKETING_VERSION[sdk=macosx*]" = 2.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.familie-zimba.amperfy-music";
+				MARKETING_VERSION = 0.9.2;
+				"MARKETING_VERSION[sdk=macosx*]" = 0.9.2;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.appflair.muzeflow;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = dev.appflair.muzeflow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3269,7 +3449,7 @@
 				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Amperfy.app/Amperfy";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muzeflow.app/Muzeflow";
 			};
 			name = Debug;
 		};
@@ -3301,14 +3481,23 @@
 				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Amperfy.app/Amperfy";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Muzeflow.app/Muzeflow";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Amperfy" */ = {
+		3DB86A5A2FA65E23004AC097 /* Build configuration list for PBXNativeTarget "Muzeflow Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DB86A5B2FA65E23004AC097 /* Debug */,
+				3DB86A5C2FA65E23004AC097 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		508385DF21C5965B00C4BB32 /* Build configuration list for PBXProject "Muzeflow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5083860A21C5965E00C4BB32 /* Debug */,
@@ -3317,7 +3506,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Amperfy" */ = {
+		5083860C21C5965E00C4BB32 /* Build configuration list for PBXNativeTarget "Muzeflow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5083860D21C5965E00C4BB32 /* Debug */,

@@ -71,6 +71,11 @@ class EntityPreviewActionBuilder {
   private var isShowSongDetails = false
   private var isInstantMix = false
   private var isShareable = false
+  private var isSyncToWatch = false
+  private var isSyncPlaylistToWatch = false
+  private var isWatchSyncAvailable: Bool {
+    !ProcessInfo.processInfo.isMacCatalystApp
+  }
 
   init(
     container: PlayableContainable,
@@ -154,6 +159,14 @@ class EntityPreviewActionBuilder {
     }
     if isDownloadPossible {
       elementHandlingActions.append(createDownloadAction())
+    }
+    if isSyncToWatch,
+       let song = (entityContainer as? AbstractPlayable)?.asSong {
+      elementHandlingActions.append(createSyncToWatchAction(song: song))
+    }
+    if isSyncPlaylistToWatch,
+       let playlist = entityContainer as? Playlist {
+      elementHandlingActions.append(createSyncPlaylistToWatchAction(playlist: playlist))
     }
     if entityContainer.playables.hasCachedItems {
       elementHandlingActions.append(createDeleteCacheAction())
@@ -267,6 +280,7 @@ class EntityPreviewActionBuilder {
     isShowSongDetails = true
     isInstantMix = appDelegate.storage.settings.user.isOnlineMode
     isShareable = song.isCached || appDelegate.storage.settings.user.isOnlineMode
+    isSyncToWatch = isWatchSyncAvailable && song.isCached
   }
 
   private func configureFor(podcastEpisode: PodcastEpisode) {
@@ -327,6 +341,7 @@ class EntityPreviewActionBuilder {
     isGoToSiteUrl = false
     isShowPodcastDetails = false
     isShowSongDetails = false
+    isSyncPlaylistToWatch = isWatchSyncAvailable
   }
 
   private func configureFor(genre: Genre) {
@@ -769,6 +784,34 @@ class EntityPreviewActionBuilder {
         // do nothing
       }))
       self.rootView.present(alert, animated: true, completion: nil)
+    }
+  }
+
+  private func createSyncToWatchAction(song: Song) -> UIAction {
+    UIAction(
+      title: "Sync to Watch",
+      image: UIImage(systemName: "applewatch")
+    ) { _ in
+      let message = self.appDelegate.watchSessionManager.syncSongMetadata(song)
+      self.appDelegate.eventLogger.info(
+        topic: "Watch Sync",
+        message: message,
+        displayPopup: true
+      )
+    }
+  }
+
+  private func createSyncPlaylistToWatchAction(playlist: Playlist) -> UIAction {
+    UIAction(
+      title: "Sync Playlist to Watch",
+      image: UIImage(systemName: "applewatch")
+    ) { _ in
+      let message = self.appDelegate.watchSessionManager.syncPlaylist(playlist)
+      self.appDelegate.eventLogger.info(
+        topic: "Watch Sync",
+        message: message,
+        displayPopup: true
+      )
     }
   }
 

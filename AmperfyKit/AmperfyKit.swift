@@ -26,7 +26,7 @@ import os.log
 
 @MainActor
 public class AmperKit {
-  static let name = "Amperfy"
+  static let name = "Muzeflow"
   static var version: String {
     (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? ""
   }

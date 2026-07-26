@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EntityPreviewVC" customModule="Amperfy">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EntityPreviewVC" customModule="Muzeflow">
             <connections>
                 <outlet property="artistLabel" destination="wKh-7l-2Ni" id="W4w-67-gA2"/>
                 <outlet property="entityImageView" destination="mAm-Nt-stn" id="Xyk-qA-Yb8"/>

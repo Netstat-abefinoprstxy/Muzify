@@ -82,6 +82,7 @@ class PlayableTableCell: BasicTableCell {
 
   private var ratingStackView: UIStackView?
   private var ratingStarViews: [UIImageView] = []
+  private var isDownloadNotificationRegistered = false
 
   static let rowHeight: CGFloat = 48 + margin.bottom + margin.top
   private static let touchAnimation = 0.4
@@ -146,7 +147,19 @@ class PlayableTableCell: BasicTableCell {
       downloadProgress.isHidden = true
       setupRatingStars()
       resetForReuse()
+      registerDownloadNotificationsIfNeeded()
     }
+  }
+
+  private func registerDownloadNotificationsIfNeeded() {
+    guard !isDownloadNotificationRegistered else { return }
+    appDelegate.notificationHandler.register(
+      self,
+      selector: #selector(downloadFinishedSuccessful(notification:)),
+      name: .downloadFinishedSuccess,
+      object: nil
+    )
+    isDownloadNotificationRegistered = true
   }
 
   private func setupRatingStars() {
@@ -640,6 +653,14 @@ class PlayableTableCell: BasicTableCell {
   #else
 
     @objc
+    private func downloadFinishedSuccessful(notification: Notification) {
+      guard let downloadNotification = DownloadNotification.fromNotification(notification),
+            downloadNotification.id == download?.id || downloadNotification.id == playable?.uniqueID
+      else { return }
+      refresh()
+    }
+
+    @objc
     func singleTap(sender: UITapGestureRecognizer) {
       switch sender.state {
       case .ended:
@@ -649,6 +670,17 @@ class PlayableTableCell: BasicTableCell {
       default:
         break
       }
+    }
+  #endif
+
+  #if targetEnvironment(macCatalyst)
+    @objc
+    private func downloadFinishedSuccessful(notification: Notification) {
+      guard let downloadNotification = DownloadNotification.fromNotification(notification),
+            downloadNotification.id == download?.id || downloadNotification.id == playable?.uniqueID
+      else { return }
+      refresh()
+      refreshHoverStyle()
     }
   #endif
 }
